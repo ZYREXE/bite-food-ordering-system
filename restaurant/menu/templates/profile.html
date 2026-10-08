@@ -1,0 +1,415 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Profile</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --bg:#080B10;
+  --bg2:#0C1018;
+  --surface:rgba(255,255,255,0.05);
+  --border:rgba(255,255,255,0.08);
+
+  --orange:#FF6B2B;
+  --orange2:#FF9A5C;
+
+  --white:#ffffff;
+  --text:#E2E8F0;
+  --grey:#8A93A8;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  min-height:100vh;
+  background:linear-gradient(135deg,#080B10,#0C1018,#111620);
+  overflow-x:hidden;
+  overflow-y:auto;
+  color:var(--text);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  position:relative;
+  padding:20px;
+}
+
+/* BACKGROUND ORBS */
+
+.orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(120px);
+  pointer-events:none;
+}
+
+.orb1{
+  width:500px;
+  height:500px;
+  background:rgba(255,107,43,0.12);
+  top:-150px;
+  right:-100px;
+}
+
+.orb2{
+  width:400px;
+  height:400px;
+  background:rgba(0,212,170,0.08);
+  bottom:-100px;
+  left:-100px;
+}
+
+/* PROFILE BOX */
+
+.profile-box{
+  width:100%;
+  max-width:500px;
+
+  padding:42px;
+
+  border-radius:28px;
+
+  background:rgba(10,12,18,0.88);
+
+  backdrop-filter:blur(30px);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  box-shadow:0 30px 60px rgba(0,0,0,0.45);
+
+  position:relative;
+  z-index:2;
+}
+
+.profile-box::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:4px;
+
+  border-radius:28px 28px 0 0;
+
+  background:linear-gradient(90deg,var(--orange),var(--orange2));
+}
+
+/* TITLE */
+
+h2{
+  text-align:center;
+
+  color:white;
+
+  font-size:38px;
+  font-weight:800;
+
+  letter-spacing:-2px;
+
+  margin-bottom:34px;
+}
+
+/* PROFILE CARD */
+
+.profile-info{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.info-card{
+  background:rgba(255,255,255,0.04);
+
+  border:1px solid rgba(255,255,255,0.07);
+
+  border-radius:18px;
+
+  padding:18px 20px;
+
+  transition:0.3s;
+}
+
+.info-card:hover{
+  transform:translateY(-3px);
+
+  border-color:rgba(255,107,43,0.25);
+}
+
+.info-label{
+  font-size:13px;
+  color:var(--grey);
+
+  margin-bottom:8px;
+
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.info-value{
+  color:white;
+
+  font-size:16px;
+  font-weight:600;
+
+  word-break:break-word;
+}
+
+/* HOME BUTTON */
+
+.home-btn{
+  margin-top:26px;
+  margin-bottom:10px;
+}
+
+.home-btn a{
+  display:inline-block;
+
+  padding:12px 18px;
+
+  border-radius:14px;
+
+  background:rgba(255,255,255,0.05);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  color:white;
+
+  text-decoration:none;
+
+  font-size:14px;
+  font-weight:600;
+
+  transition:0.3s;
+}
+
+.home-btn a:hover{
+  transform:translateY(-3px);
+
+  border-color:var(--orange);
+
+  box-shadow:0 10px 25px rgba(255,107,43,0.15);
+}
+
+/* ACTION LINKS */
+
+.action-links{
+  margin-top:18px;
+
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:14px;
+}
+
+.action-links a{
+  width:100%;
+
+  text-decoration:none;
+
+  padding:16px;
+
+  border-radius:16px;
+
+  text-align:center;
+
+  font-size:15px;
+  font-weight:700;
+
+  transition:0.3s;
+}
+
+/* CHANGE USERNAME */
+
+.username-btn{
+  display:block;
+
+  background:#141923;
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  color:#ff8f8f;
+}
+
+.username-btn:hover{
+  transform:translateY(-4px);
+
+  border-color:var(--orange);
+
+  box-shadow:0 10px 25px rgba(255,107,43,0.15);
+}
+
+/* CHANGE PASSWORD */
+
+.password-btn{
+  display:block;
+
+  background:#141923;
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  color:#ff8f8f;
+}
+
+.password-btn:hover{
+  transform:translateY(-4px);
+
+  border-color:var(--orange);
+
+  box-shadow:0 10px 25px rgba(255,107,43,0.15);
+}
+
+/* LOGOUT BUTTON */
+
+.logout{
+  margin-top:28px;
+}
+
+.logout a{
+  display:block;
+
+  width:100%;
+
+  text-align:center;
+
+  padding:16px;
+
+  border-radius:16px;
+
+  text-decoration:none;
+
+  background:
+  linear-gradient(135deg,var(--orange),#e03a00);
+
+  color:white;
+
+  font-size:15px;
+  font-weight:700;
+
+  transition:0.35s;
+}
+
+.logout a:hover{
+  transform:translateY(-5px);
+
+  background:
+  linear-gradient(135deg,var(--orange),#ff8616);
+
+  box-shadow:0 20px 40px rgba(255,107,43,0.25);
+}
+
+/* MOBILE */
+
+@media(max-width:520px){
+
+  .profile-box{
+    padding:30px 24px;
+  }
+
+  h2{
+    font-size:32px;
+  }
+
+  .action-links{
+    grid-template-columns:1fr;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<div class="profile-box">
+
+  <h2>My Profile</h2>
+
+  <div class="profile-info">
+
+    <div class="info-card">
+      <div class="info-label">
+        Username
+      </div>
+
+      <div class="info-value">
+        {{ request.user.username }}
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-label">
+        Email Address
+      </div>
+
+      <div class="info-value">
+        {{ request.user.email }}
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-label">
+        Password
+      </div>
+
+      <div class="info-value">
+        ••••••••••••
+      </div>
+    </div>
+
+  </div>
+
+  <!-- HOME BUTTON -->
+
+  <div class="home-btn">
+
+    <a href="{% url 'home' %}">
+      ← Back to Home
+    </a>
+
+  </div>
+
+  <!-- ACTION BUTTONS -->
+
+  <div class="action-links">
+
+    <a href="{% url 'change_username' %}" class="username-btn">
+      Change Username
+    </a>
+
+    <a href="{% url 'change_password' %}" class="password-btn">
+      Change Password
+    </a>
+
+  </div>
+
+  <!-- LOGOUT -->
+
+  <div class="logout">
+
+    <a href="{% url 'logout' %}">
+      Logout
+    </a>
+
+  </div>
+
+</div>
+
+</body>
+</html>

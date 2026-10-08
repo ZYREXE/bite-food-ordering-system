@@ -1,0 +1,673 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BiTē Cart</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+<style>
+
+/* RESET */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:#0b0f16;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+/* NAV */
+.nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 40px;
+  background:rgba(8,11,16,0.6);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  z-index:100;
+}
+
+.nav-logo{
+  font-size:22px;
+  font-weight:800;
+}
+
+.nav-logo span{
+  color:#ff6b2b;
+}
+
+.nav-links{
+  display:flex;
+  gap:25px;
+  list-style:none;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:#8A93A8;
+  font-size:14px;
+  transition:0.3s;
+}
+
+.nav-links a:hover{
+  color:#fff;
+}
+
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logout-btn{
+  padding:7px 14px;
+  border-radius:10px;
+  border:2px solid #ff6b2b70;
+  background:transparent;
+  color:#ff6b2b;
+  cursor:pointer;
+  transition:0.3s;
+  text-decoration:none;
+}
+
+.logout-btn:hover{
+  background:#ff6b2b;
+  color:#0b0f16;
+}
+
+.user-name{
+  font-size:18px;
+  font-weight:600;
+}
+
+.user-name span{
+  color:#ff6b2b;
+}
+
+/* MAIN */
+.container{
+  max-width:1300px;
+  margin:auto;
+  padding:120px 20px 60px;
+}
+
+/* TITLE */
+.page-title{
+  margin-bottom:30px;
+}
+
+.page-title h1{
+  font-size:52px;
+  font-weight:800;
+}
+
+.page-title span{
+  color:#ff6b2b;
+}
+
+.page-title p{
+  margin-top:10px;
+  color:#8A93A8;
+}
+
+/* LAYOUT */
+.cart-layout{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:25px;
+}
+
+/* LEFT */
+.cart-box{
+  background:#151b26;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:22px;
+  padding:25px;
+}
+
+/* TABLE HEADER */
+.cart-header{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 80px;
+  padding-bottom:15px;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  color:#8A93A8;
+  font-size:14px;
+}
+
+/* ITEM */
+.cart-item{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 80px;
+  align-items:center;
+  padding:22px 0;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.food-info{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+.food-image{
+  width:95px;
+  height:95px;
+  border-radius:16px;
+  overflow:hidden;
+  flex-shrink:0;
+}
+
+.food-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.food-name{
+  font-size:20px;
+  font-weight:700;
+}
+
+.food-price{
+  color:#ff6b2b;
+  margin-top:6px;
+  font-weight:700;
+}
+
+/* QUANTITY */
+.quantity-box{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:#0f141d;
+  border:1px solid rgba(255,255,255,0.08);
+  width:max-content;
+  padding:10px 14px;
+  border-radius:12px;
+}
+
+.quantity-box a{
+  color:#ff6b2b;
+  text-decoration:none;
+  font-size:22px;
+  font-weight:700;
+}
+
+.quantity-number{
+  min-width:20px;
+  text-align:center;
+  font-weight:700;
+}
+
+/* SUBTOTAL */
+.subtotal{
+  color:#ff6b2b;
+  font-weight:800;
+  font-size:20px;
+}
+
+/* REMOVE */
+.remove-btn a{
+  text-decoration:none;
+  color:#ff4d6d;
+  font-size:22px;
+}
+
+/* RIGHT SIDE */
+.summary-box{
+  background:#151b26;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:22px;
+  padding:25px;
+  height:max-content;
+  position:sticky;
+  top:100px;
+}
+
+.summary-title{
+  font-size:28px;
+  font-weight:700;
+  margin-bottom:25px;
+}
+
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:18px;
+  color:#c7cedd;
+}
+
+.summary-total{
+  display:flex;
+  justify-content:space-between;
+  margin-top:25px;
+  padding-top:20px;
+  border-top:1px solid rgba(255,255,255,0.08);
+  font-size:28px;
+  font-weight:800;
+}
+
+.summary-total span:last-child{
+  color:#ff6b2b;
+}
+
+/* BUTTON */
+.checkout-btn{
+  width:100%;
+  margin-top:28px;
+  padding:16px;
+  border:none;
+  border-radius:14px;
+  background:#ff6b2b;
+  color:white;
+  font-size:17px;
+  font-weight:700;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.checkout-btn:hover{
+  transform:translateY(-3px);
+  opacity:0.9;
+}
+
+/* EMPTY */
+.empty-cart{
+  background:#151b26;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:22px;
+  padding:70px 20px;
+  text-align:center;
+}
+
+.empty-cart h2{
+  font-size:38px;
+  margin-bottom:10px;
+}
+
+.empty-cart p{
+  color:#8A93A8;
+  margin-bottom:25px;
+}
+
+.menu-btn{
+  display:inline-block;
+  padding:14px 24px;
+  border-radius:12px;
+  background:#ff6b2b;
+  color:white;
+  text-decoration:none;
+  font-weight:700;
+}
+
+/* TOAST */
+.toast-container{
+  position:fixed;
+  top:90px;
+  right:25px;
+  z-index:9999;
+}
+
+.toast-message{
+  min-width:340px;
+  max-width:380px;
+  background:#151b26;
+  border:1px solid rgba(255,255,255,0.08);
+  border-left:5px solid #00d26a;
+  border-radius:18px;
+  padding:18px;
+  display:flex;
+  align-items:flex-start;
+  gap:15px;
+  box-shadow:0 10px 35px rgba(0,0,0,0.35);
+
+  animation:toastSlide 0.5s ease;
+  transition:0.4s;
+}
+
+.toast-message.hide{
+  opacity:0;
+  transform:translateX(120px);
+}
+
+.toast-icon{
+  width:42px;
+  height:42px;
+  border-radius:12px;
+  background:#00d26a20;
+  color:#00d26a;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  font-weight:800;
+  flex-shrink:0;
+}
+
+.toast-content{
+  flex:1;
+}
+
+.toast-title{
+  font-size:16px;
+  font-weight:700;
+  margin-bottom:4px;
+}
+
+.toast-text{
+  color:#aeb7c8;
+  font-size:14px;
+  line-height:1.5;
+}
+
+.toast-close{
+  background:none;
+  border:none;
+  color:#8A93A8;
+  font-size:22px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.toast-close:hover{
+  color:white;
+}
+
+@keyframes toastSlide{
+
+  from{
+    transform:translateX(100px);
+    opacity:0;
+  }
+
+  to{
+    transform:translateX(0);
+    opacity:1;
+  }
+
+}
+
+/* RESPONSIVE */
+@media(max-width:950px){
+
+  .cart-layout{
+    grid-template-columns:1fr;
+  }
+
+  .cart-header{
+    display:none;
+  }
+
+  .cart-item{
+    grid-template-columns:1fr;
+    gap:18px;
+  }
+
+  .summary-box{
+    position:static;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+
+  <div class="nav-logo">
+    <a href="{% url 'home' %}" style="text-decoration:none;color:inherit;">
+      Bi<span>Tē</span>
+    </a>
+  </div>
+
+  <ul class="nav-links">
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'menu' %}">Menu</a></li>
+  </ul>
+
+  <div class="nav-right">
+
+    {% if user.is_authenticated %}
+
+      <div class="user-name">
+        Hello <span>{{ user.username }}</span>
+      </div>
+
+      <a href="{% url 'logout' %}" class="logout-btn">
+        Logout
+      </a>
+
+    {% endif %}
+
+  </div>
+
+</nav>
+
+<!-- TOAST -->
+{% if messages %}
+
+<div class="toast-container">
+
+  {% for message in messages %}
+
+  <div class="toast-message">
+
+    <div class="toast-icon">
+      ✓
+    </div>
+
+    <div class="toast-content">
+
+      <div class="toast-title">
+        Success
+      </div>
+
+      <div class="toast-text">
+        {{ message }}
+      </div>
+
+    </div>
+
+    <button class="toast-close">
+      ×
+    </button>
+
+  </div>
+
+  {% endfor %}
+
+</div>
+
+{% endif %}
+
+<div class="container">
+
+  <div class="page-title">
+    <h1>place <span>order</span></h1>
+    <p>Review your items before checkout.</p>
+  </div>
+
+  {% if cart_items %}
+
+  <div class="cart-layout">
+
+    <!-- LEFT -->
+    <div class="cart-box">
+
+      <div class="cart-header">
+        <div>ITEM</div>
+        <div>QUANTITY</div>
+        <div>PRICE PER ITEM</div>
+        <div></div>
+      </div>
+
+      {% for item in cart_items %}
+
+      <div class="cart-item">
+
+        <!-- FOOD -->
+        <div class="food-info">
+
+          <div class="food-image">
+            <img src="{{ item.food.image.url }}" alt="">
+          </div>
+
+          <div>
+
+            <div class="food-name">
+              {{ item.food.name }}
+            </div>
+
+            <div class="food-price">
+              ₹{{ item.food.price }}
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- QUANTITY -->
+        <div class="quantity-box">
+
+          <a href="{% url 'decrease_quantity' item.id %}">
+            −
+          </a>
+
+          <div class="quantity-number">
+            {{ item.quantity }}
+          </div>
+
+          <a href="{% url 'increase_quantity' item.id %}">
+            +
+          </a>
+
+        </div>
+
+        <!-- SUBTOTAL -->
+        <div class="subtotal">
+          ₹{{ item.food.price|floatformat:0 }}
+        </div>
+
+        <!-- REMOVE -->
+        <div class="remove-btn">
+
+          <a href="{% url 'remove_cart_item' item.id %}">
+            🗑
+          </a>
+
+        </div>
+
+      </div>
+
+      {% endfor %}
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="summary-box">
+
+      <div class="summary-title">
+        Order Summary
+      </div>
+
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span>₹{{ total }}</span>
+      </div>
+
+      <div class="summary-row">
+        <span></span>
+        <span>₹40</span>
+      </div>
+
+      <div class="summary-total">
+        <span>Total</span>
+        <span>₹{{ total|add:40 }}</span>
+      </div>
+
+      <a href="{% url 'checkout_bill' %}">
+
+        <button class="checkout-btn">
+          Proceed to Checkout
+        </button>
+
+      </a>
+
+    </div>
+
+  </div>
+
+  {% else %}
+
+  <!-- EMPTY -->
+  <div class="empty-cart">
+
+    <h2>Your cart is empty</h2>
+
+    <p>
+      Looks like you haven’t added anything yet.
+    </p>
+
+    <a href="{% url 'menu' %}" class="menu-btn">
+      Browse Menu
+    </a>
+
+  </div>
+
+  {% endif %}
+
+</div>
+
+<script>
+
+const toasts = document.querySelectorAll(".toast-message");
+
+toasts.forEach((toast) => {
+
+  const closeBtn = toast.querySelector(".toast-close");
+
+  closeBtn.addEventListener("click", () => {
+
+    toast.classList.add("hide");
+
+    setTimeout(() => {
+      toast.remove();
+    }, 400);
+
+  });
+
+  setTimeout(() => {
+
+    toast.classList.add("hide");
+
+    setTimeout(() => {
+      toast.remove();
+    }, 400);
+
+  }, 4000);
+
+});
+
+</script>
+
+</body>
+</html>

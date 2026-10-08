@@ -1,0 +1,563 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiTē — Order Confirmed</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0b0f16;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* NAV */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            background: rgba(8, 11, 16, 0.6);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .nav-logo span {
+            color: #ff6b2b;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #8A93A8;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logout-btn {
+            padding: 7px 14px;
+            border-radius: 10px;
+            border: 2px solid #ff6b2b70;
+            background: transparent;
+            color: #ff6b2b;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .logout-btn:hover {
+            background: #ff6b2b;
+            color: #0b0f16;
+        }
+
+        .user-name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .user-name span {
+            color: #ff6b2b;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 760px;
+            margin: auto;
+            padding: 110px 20px 80px;
+        }
+
+        /* SUCCESS HERO */
+        .success-hero {
+            text-align: center;
+            padding: 50px 0 40px;
+        }
+
+        .success-icon {
+            width: 90px;
+            height: 90px;
+            background: rgba(0, 210, 106, 0.12);
+            border: 2px solid rgba(0, 210, 106, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin: 0 auto 28px;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-hero h1 {
+            font-size: 44px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .success-hero h1 span {
+            color: #ff6b2b;
+        }
+
+        .success-hero p {
+            color: #8A93A8;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        /* ORDER CARD */
+        .order-card {
+            background: #151b26;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            overflow: hidden;
+            margin-top: 32px;
+        }
+
+        /* CARD HEAD */
+        .card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 22px 28px;
+            background: rgba(255, 107, 43, 0.07);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .order-id {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .order-id span {
+            color: #ff6b2b;
+        }
+
+        .order-meta {
+            display: flex;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            text-align: right;
+        }
+
+        .meta-item .meta-label {
+            font-size: 11px;
+            color: #5a6272;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .meta-item .meta-value {
+            font-size: 15px;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        /* STATUS BADGE */
+        .status-badge {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            background: rgba(255, 107, 43, 0.15);
+            color: #ff6b2b;
+            border: 1px solid rgba(255, 107, 43, 0.3);
+            text-transform: capitalize;
+        }
+
+        /* ITEMS */
+        .card-items {
+            padding: 8px 28px;
+        }
+
+        .item-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .item-row:last-child {
+            border-bottom: none;
+        }
+
+        .item-left .item-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .item-left .item-qty {
+            font-size: 13px;
+            color: #8A93A8;
+            margin-top: 3px;
+        }
+
+        .item-right {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ff6b2b;
+        }
+
+        /* TOTALS */
+        .card-totals {
+            padding: 18px 28px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            color: #c7cedd;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .grand-row {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 16px;
+            border-top: 1px dashed rgba(255, 107, 43, 0.3);
+            margin-top: 4px;
+        }
+
+        .grand-row .grand-label {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .grand-row .grand-amount {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ff6b2b;
+        }
+
+        /* ACTIONS */
+        .card-actions {
+            display: flex;
+            gap: 14px;
+            padding: 24px 28px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .btn-menu {
+            flex: 1;
+            display: block;
+            padding: 14px;
+            border-radius: 14px;
+            background: #ff6b2b;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 700;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .btn-menu:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 107, 43, 0.35);
+        }
+
+        .btn-home {
+            flex: 1;
+            display: block;
+            padding: 14px;
+            border-radius: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: #8A93A8;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .btn-home:hover {
+            border-color: rgba(255, 255, 255, 0.25);
+            color: #fff;
+        }
+
+        /* TOAST */
+        .toast-container {
+            position: fixed;
+            top: 90px;
+            right: 25px;
+            z-index: 9999;
+        }
+
+        .toast-message {
+            min-width: 340px;
+            max-width: 380px;
+            background: #151b26;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-left: 5px solid #00d26a;
+            border-radius: 18px;
+            padding: 18px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+            animation: toastSlide 0.5s ease;
+            transition: 0.4s;
+        }
+
+        .toast-message.hide {
+            opacity: 0;
+            transform: translateX(120px);
+        }
+
+        .toast-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #00d26a20;
+            color: #00d26a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .toast-text {
+            color: #aeb7c8;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #8A93A8;
+            font-size: 22px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .toast-close:hover {
+            color: white;
+        }
+
+        @keyframes toastSlide {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media(max-width:600px) {
+            .success-hero h1 {
+                font-size: 32px;
+            }
+
+            .card-head {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .order-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .meta-item {
+                text-align: left;
+            }
+
+            .card-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="nav-logo">
+            <a href="{% url 'home' %}" style="text-decoration:none;color:inherit;">Bi<span>Tē</span></a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'menu' %}">Menu</a></li>
+        </ul>
+        <div class="nav-right">
+            {% if user.is_authenticated %}
+            <div class="user-name">Hello <span>{{ user.username }}</span></div>
+            <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- TOAST -->
+    {% if messages %}
+    <div class="toast-container">
+        {% for message in messages %}
+        <div class="toast-message">
+            <div class="toast-icon">✓</div>
+            <div class="toast-content">
+                <div class="toast-title">Order Placed!</div>
+                <div class="toast-text">{{ message }}</div>
+            </div>
+            <button class="toast-close">×</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="container">
+
+        <!-- SUCCESS HERO -->
+        <div class="success-hero">
+            <div class="success-icon">✓</div>
+            <h1>order <span>confirmed</span></h1>
+            <p>Your food is being prepared. Get ready for something delicious!</p>
+        </div>
+
+        <!-- ORDER CARD -->
+        <div class="order-card">
+
+            <!-- HEAD -->
+            <div class="card-head">
+                <div class="order-id">Order <span>#{{ order.id }}</span></div>
+                <div class="order-meta">
+                    <div class="meta-item">
+                        <div class="meta-label">Placed at</div>
+                        <div class="meta-value">{{ order.created_at|date:"d M Y, g:i A" }}</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Status</div>
+                        <div class="meta-value">
+                            <span class="status-badge">{{ order.status }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ITEMS -->
+            <div class="card-items">
+                {% for item in order.items.all %}
+                <div class="item-row">
+                    <div class="item-left">
+                        <div class="item-name">{{ item.food.name }}</div>
+                        <div class="item-qty">{{ item.quantity }} × ₹{{ item.price|floatformat:0 }}</div>
+                    </div>
+                    <div class="item-right">₹{{ item.subtotal|floatformat:0 }}</div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- TOTALS -->
+            <div class="card-totals">
+                <div class="total-row">
+                    <span>Subtotal</span>
+                    <span>₹{{ order.subtotal|floatformat:0 }}</span>
+                </div>
+                <div class="total-row">
+                    <span>Delivery Fee</span>
+                    <span>₹{{ order.delivery_fee|floatformat:0 }}</span>
+                </div>
+                <div class="grand-row">
+                    <span class="grand-label">Total Paid</span>
+                    <span class="grand-amount">₹{{ order.total|floatformat:0 }}</span>
+                </div>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="card-actions">
+                <a href="{% url 'home' %}" class="btn-home">← Back to Home</a>
+                <a href="{% url 'menu' %}" class="btn-menu">Order Again</a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        const toasts = document.querySelectorAll(".toast-message");
+        toasts.forEach((toast) => {
+            const closeBtn = toast.querySelector(".toast-close");
+            closeBtn.addEventListener("click", () => {
+                toast.classList.add("hide");
+                setTimeout(() => toast.remove(), 400);
+            });
+            setTimeout(() => {
+                toast.classList.add("hide");
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        });
+    </script>
+
+</body>
+
+</html>

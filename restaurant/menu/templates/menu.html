@@ -1,0 +1,368 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BiTē Menu</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+
+<style>
+
+/* RESET */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:#0b0f16;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+/* NAV */
+.nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  height:68px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 40px;
+  background:rgba(8,11,16,0.6);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  z-index:100;
+}
+
+.nav-logo{
+  font-size:22px;
+  font-weight:800;
+}
+
+.nav-logo span{
+  color:#ff6b2b;
+}
+
+.nav-links{
+  display:flex;
+  gap:25px;
+  list-style:none;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:#8A93A8;
+  font-size:14px;
+  transition:0.3s;
+}
+
+.nav-links a:hover{
+  color:#fff;
+}
+
+/* RIGHT */
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logout-btn{
+  padding:7px 14px;
+  border-radius:10px;
+  border:1px solid #ff6b2b;
+  background:transparent;
+  color:#ff6b2b;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.logout-btn:hover{
+  background:#ff6b2b;
+  color:#0b0f16;
+}
+
+/* USER */
+.user-name{
+  font-size:22px;
+  font-weight:600;
+}
+
+.user-name span{
+  color:#ff6b2b;
+}
+
+/* PAGE WRAPPER */
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:120px 20px 60px; /* important for fixed nav */
+}
+
+/* TITLE */
+.title{
+  font-size:34px;
+  font-weight:800;
+  margin-bottom:25px;
+}
+
+.title span{
+  color:#ff6b2b;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+  gap:20px;
+}
+
+/* CARD */
+.card{
+  background:#151b26;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;
+  overflow:hidden;
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-1px);
+  border-color:#ff6b2b6a;
+  border:2px solid rgba(255,107,43,0.4);
+}
+
+/* IMAGE FIX */
+.img-box{
+  width:100%;
+  height:180px;
+  overflow:hidden;
+}
+
+.img-box img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* CONTENT */
+.content{
+  padding:15px;
+}
+
+.name{
+  font-size:18px;
+  font-weight:700;
+}
+
+.bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:10px;
+}
+
+.price{
+  color:#ff6b2b;
+  font-weight:800;
+}
+
+/* BUTTON */
+.btn{
+  padding:6px 12px;
+  border:none;
+  border-radius:8px;
+  background:rgba(255,107,43,0.9);
+  color:white;
+  cursor:pointer;
+}
+/* hover on button */
+.btn:hover{
+  padding:6px 12px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(45deg, rgba(255, 60, 21, 0.955), rgba(255, 91, 20, 0.9));
+  transform:translateY(-2px);
+  color:white;
+  cursor:pointer;
+}
+
+.btn:disabled{
+  background:#444;
+  cursor:not-allowed;
+}
+/* TOAST */
+.toast-container{
+  position:fixed;
+  top:90px;
+  right:20px;
+  z-index:9999;
+  pointer-events:none;
+}
+
+.toast{
+  background:rgba(21,27,38,0.95);
+  border:1px solid rgba(255,107,43,0.3);
+  backdrop-filter:blur(14px);
+
+  color:#fff;
+  padding:16px 20px;
+  border-radius:16px;
+
+  min-width:280px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.35),
+    0 0 20px rgba(255,107,43,0.08);
+
+  font-size:14px;
+  font-weight:500;
+
+  animation:
+    toastSlide 0.45s ease,
+    toastFade 0.45s ease 2.6s forwards;
+
+  overflow:hidden;
+}
+
+/* ORANGE BAR */
+.toast::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:4px;
+  background:#ff6b2b;
+  border-radius:20px;
+}
+
+/* SLIDE */
+@keyframes toastSlide{
+
+  from{
+    opacity:0;
+    transform:translateX(50px) scale(0.96);
+  }
+
+  to{
+    opacity:1;
+    transform:translateX(0) scale(1);
+  }
+
+}
+
+/* AUTO HIDE */
+@keyframes toastFade{
+
+  to{
+    opacity:0;
+    transform:translateX(40px);
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+{% if messages %}
+
+<div class="toast-container">
+
+  {% for message in messages %}
+
+    <div class="toast">
+      {{ message }}
+    </div>
+
+  {% endfor %}
+
+</div>
+
+{% endif %}
+  <!-- LOGO -->
+  <div class="nav-logo">
+    <a href="{% url 'home' %}" style="text-decoration:none;color:inherit;">
+      Bi<span>Tē</span>
+    </a>
+  </div>
+
+  <!-- LINKS -->
+  <ul class="nav-links">
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'cart' %}">Cart</a></li>
+  </ul>
+
+  <!-- USER -->
+  <div class="nav-right">
+    {% if user.is_authenticated %}
+      <div class="user-name">
+        Hello <span>{{ user.username }}</span>
+      </div>
+    {% else %}
+      <a href="{% url 'signin' %}">
+        <button class="logout-btn">Login</button>
+      </a>
+    {% endif %}
+  </div>
+
+</nav>
+
+<!-- MENU -->
+<div class="container">
+
+  <div class="title">Our <span>Menu</span></div>
+
+  <div class="grid">
+
+    {% for food in foods %}
+
+    <div class="card">
+
+      <div class="img-box">
+        {% if food.image %}
+          <img src="{{ food.image.url }}" alt="{{ food.name }}">
+        {% else %}
+          <img src="{% static 'default-food.jpg' %}" alt="food">
+        {% endif %}
+      </div>
+
+      <div class="content">
+        <div class="name">{{ food.name }}</div>
+
+        <div class="bottom">
+          <div class="price">₹{{ food.price }}</div>
+
+          {% if user.is_authenticated %}
+            <a href="{% url 'add_to_cart' food.id %}">
+             <button class="btn">Add to cart</button>
+            </a>
+          {% else %}
+            <button class="btn" disabled>Login</button>
+          {% endif %}
+
+        </div>
+      </div>
+
+    </div>
+
+    {% endfor %}
+
+  </div>
+
+</div>
+
+</body>
+</html>

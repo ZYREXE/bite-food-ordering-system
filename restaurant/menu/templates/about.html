@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Our Story — BiTē Kitchen</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#080B10;
+  --bg2:#0C1018;
+  --bg3:#111620;
+  --surface:rgba(255,255,255,0.04);
+  --surface2:rgba(255,255,255,0.07);
+  --border:rgba(255,255,255,0.08);
+  --border2:rgba(255,255,255,0.13);
+  --orange:#FF6B2B;
+  --orange2:#FF9A5C;
+  --orange-glow:rgba(255,107,43,0.22);
+  --teal:#00D4AA;
+  --white:#FFFFFF;
+  --grey:#8A93A8;
+  --grey2:#5A6278;
+  --text:#E2E8F0;
+  --radius:16px;
+  --radius-lg:24px;
+  --radius-xl:32px;
+  --blur:blur(20px);
+  --t:0.3s cubic-bezier(0.4,0,0.2,1);
+  --ts:0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--orange);border-radius:3px}
+
+/* ORBS */
+.orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0;animation:orbFloat 8s ease-in-out infinite}
+.orb-1{width:700px;height:700px;background:radial-gradient(circle,rgba(255,107,43,0.1),transparent 70%);top:-200px;right:-100px}
+.orb-2{width:500px;height:500px;background:radial-gradient(circle,rgba(0,212,170,0.07),transparent 70%);bottom:20%;left:-150px;animation-delay:3s}
+.orb-3{width:400px;height:400px;background:radial-gradient(circle,rgba(255,107,43,0.06),transparent 70%);bottom:0;right:20%;animation-delay:6s}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:68px;display:flex;align-items:center;padding:0 40px;gap:40px;background:rgba(8,11,16,0.55);backdrop-filter:var(--blur);border-bottom:1px solid var(--border);transition:var(--t)}
+.nav.solid{background:rgba(8,11,16,0.96);box-shadow:0 4px 40px rgba(0,0,0,0.6)}
+.nav-logo{font-weight:800;font-size:21px;letter-spacing:-0.5px;color:var(--white);white-space:nowrap}
+.nav-logo span{background:linear-gradient(90deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-back{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--grey);transition:color 0.3s;margin-left:auto}
+.nav-back:hover{color:var(--orange)}
+.nav-back svg{width:14px;height:14px;transition:transform 0.3s}
+.nav-back:hover svg{transform:translateX(-3px)}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;z-index:1;padding:100px 40px 80px;text-align:center}
+
+/* grid lines */
+.hero-line{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,var(--border2) 20%,var(--border2) 80%,transparent 100%);pointer-events:none}
+.hero-line-top{top:18%}
+.hero-line-bot{bottom:18%}
+.hero-vline{position:absolute;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent 0%,var(--border2) 20%,var(--border2) 80%,transparent 100%);pointer-events:none}
+.hero-vline-l{left:8%}
+.hero-vline-r{right:8%}
+.corner{position:absolute;width:20px;height:20px;opacity:0.35;pointer-events:none}
+.corner-tl{top:17%;left:7.5%;border-top:1.5px solid var(--orange);border-left:1.5px solid var(--orange)}
+.corner-tr{top:17%;right:7.5%;border-top:1.5px solid var(--orange);border-right:1.5px solid var(--orange)}
+.corner-bl{bottom:17%;left:7.5%;border-bottom:1.5px solid var(--orange);border-left:1.5px solid var(--orange)}
+.corner-br{bottom:17%;right:7.5%;border-bottom:1.5px solid var(--orange);border-right:1.5px solid var(--orange)}
+
+.hero-content{position:relative;z-index:2;max-width:760px}
+
+/* pill */
+.hero-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;background:var(--surface);border:1px solid var(--border2);border-radius:100px;margin-bottom:28px;opacity:0;animation:fadeUp .8s .1s ease both}
+.pill-dot{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#e03a00);display:flex;align-items:center;justify-content:center;font-size:12px}
+.pill-text{font-size:12px;font-weight:500;color:var(--grey)}
+
+/* wordmark */
+.hero-wordmark-sub{font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--grey);display:block;margin-bottom:14px;opacity:0;animation:fadeUp .8s .25s ease both}
+.hero-title{font-size:clamp(68px,12vw,150px);font-weight:900;line-height:0.92;letter-spacing:-4px;color:var(--white);margin-bottom:0;opacity:0;animation:fadeUp 1s .4s cubic-bezier(0.16,1,0.3,1) both}
+.hero-title .g{background:linear-gradient(135deg,var(--orange) 0%,var(--orange2) 50%,#FFB347 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-style:italic}
+.hero-title-under{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:12px;opacity:0;animation:fadeUp .8s .65s ease both}
+.hu-line{flex:1;max-width:100px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,107,43,0.4))}
+.hu-line-r{background:linear-gradient(90deg,rgba(255,107,43,0.4),transparent)}
+.hu-word{font-size:clamp(13px,2vw,18px);font-weight:600;letter-spacing:8px;text-transform:uppercase;color:var(--grey)}
+
+.hero-tagline{font-size:clamp(15px,1.6vw,18px);color:var(--grey);margin-top:36px;line-height:1.75;max-width:520px;margin-left:auto;margin-right:auto;opacity:0;animation:fadeUp .8s .8s ease both;font-style:italic}
+
+/* metrics row */
+.hero-metrics{display:flex;gap:32px;justify-content:center;margin-top:44px;padding-top:36px;border-top:1px solid var(--border);opacity:0;animation:fadeUp .8s 1s ease both}
+.m-val{font-size:28px;font-weight:800;color:var(--white);line-height:1;margin-bottom:4px;letter-spacing:-1.5px}
+.m-val span{background:linear-gradient(90deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.m-lbl{font-size:12px;color:var(--grey)}
+
+/* scroll cue */
+.scroll-cue{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp 1s 1.3s ease both}
+.scroll-cue-text{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--grey2);font-weight:600}
+.scroll-cue-track{width:1px;height:44px;background:var(--border2);position:relative;overflow:hidden}
+.scroll-cue-track::after{content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:linear-gradient(to bottom,transparent,var(--orange),transparent);animation:scrollTrack 2s 1.8s ease-in-out infinite}
+
+/* SECTION BASE */
+section{position:relative;z-index:1;padding:96px 80px}
+.s-inner{max-width:1100px;margin:0 auto}
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:12px}
+.s-eyebrow::before{content:'';width:24px;height:1.5px;background:var(--orange)}
+.s-title{font-size:clamp(30px,3.5vw,48px);font-weight:800;color:var(--white);letter-spacing:-1.5px;line-height:1.1;margin-bottom:10px}
+.s-title .hi{background:linear-gradient(90deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* ORIGIN SECTION */
+.origin-sec{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.origin-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+
+.origin-year{font-size:clamp(80px,12vw,140px);font-weight:900;line-height:1;letter-spacing:-5px;background:linear-gradient(135deg,rgba(255,107,43,0.18),rgba(255,107,43,0.04));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block;margin-bottom:-16px}
+.origin-title{font-size:clamp(28px,3.5vw,44px);font-weight:800;color:var(--white);line-height:1.15;letter-spacing:-1.2px;margin-bottom:20px}
+.origin-title .hi{background:linear-gradient(90deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.origin-body{font-size:14.5px;line-height:1.85;color:var(--grey);margin-bottom:18px}
+
+.pull-quote{border-left:2.5px solid var(--orange);padding:18px 22px;margin:28px 0;background:var(--orange-glow);border-radius:0 var(--radius) var(--radius) 0;position:relative}
+.pull-quote p{font-size:clamp(15px,1.6vw,19px);color:var(--white);line-height:1.55;font-weight:500;font-style:italic}
+.pull-quote cite{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--orange2);margin-top:10px;display:block;font-weight:700;font-style:normal}
+
+/* origin card */
+.origin-frame{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-xl);padding:28px;position:relative;overflow:hidden}
+.origin-frame::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 0%,rgba(255,107,43,0.07),transparent 60%);pointer-events:none}
+.origin-plate{height:260px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#120A00,#251200);display:flex;align-items:center;justify-content:center;font-size:90px;margin-bottom:22px;position:relative;overflow:hidden}
+.origin-plate::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 90%,rgba(255,107,43,0.22),transparent 55%)}
+.origin-mini-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.oms{text-align:center;padding:14px 8px;background:var(--surface2);border-radius:var(--radius);border:1px solid var(--border)}
+.oms-val{font-size:24px;font-weight:800;color:var(--white);letter-spacing:-1px}
+.oms-val span{background:linear-gradient(90deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.oms-lbl{font-size:10px;color:var(--grey);letter-spacing:0.5px;margin-top:3px;line-height:1.4}
+
+/* PHILOSOPHY */
+.phil-header{text-align:center;margin-bottom:64px}
+.phil-title-center{font-size:clamp(30px,3.5vw,48px);font-weight:800;color:var(--white);letter-spacing:-1.5px;line-height:1.1;margin-bottom:10px}
+.phil-sub{font-size:15px;color:var(--grey);max-width:480px;margin:0 auto;line-height:1.7}
+.phil-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.phil-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);padding:36px 28px;position:relative;overflow:hidden;transition:var(--t)}
+.phil-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,107,43,0.07),transparent 55%);opacity:0;transition:opacity .5s}
+.phil-card:hover{border-color:rgba(255,107,43,.35);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.phil-card:hover::before{opacity:1}
+.phil-num{font-size:64px;font-weight:900;line-height:1;background:linear-gradient(135deg,rgba(255,107,43,.15),rgba(255,107,43,.04));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-2px;margin-bottom:-6px;display:block}
+.phil-icon{font-size:30px;margin-bottom:14px;display:block}
+.phil-card-title{font-size:18px;font-weight:700;color:var(--white);letter-spacing:-0.3px;margin-bottom:10px}
+.phil-card-body{font-size:13.5px;color:var(--grey);line-height:1.8}
+
+/* TIMELINE */
+.timeline-sec{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.tl-title{font-size:clamp(28px,3.5vw,48px);font-weight:800;color:var(--white);letter-spacing:-1.5px;line-height:1.1}
+.tl-title .hi{background:linear-gradient(90deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.tl-two{display:grid;grid-template-columns:1fr 1fr;gap:0 72px;margin-top:52px}
+.tl-track{position:relative;padding-left:36px}
+.tl-track::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:1px;background:linear-gradient(to bottom,transparent,var(--border2) 10%,var(--border2) 90%,transparent)}
+.tl-item{position:relative;padding:0 0 48px 40px}
+.tl-item:last-child{padding-bottom:0}
+.tl-dot{position:absolute;left:-5px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--orange);transition:var(--t)}
+.tl-item:hover .tl-dot{background:var(--orange);box-shadow:0 0 18px var(--orange-glow)}
+.tl-year{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:7px;font-weight:700}
+.tl-event{font-size:clamp(16px,1.8vw,22px);font-weight:700;color:var(--white);letter-spacing:-0.4px;margin-bottom:7px;line-height:1.25}
+.tl-desc{font-size:13px;color:var(--grey);line-height:1.7;max-width:520px}
+
+/* NUMBERS */
+.numbers-sec{text-align:center}
+.num-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--radius-xl);overflow:hidden;margin-top:52px}
+.num-cell{background:var(--bg2);padding:52px 28px;position:relative;overflow:hidden;transition:var(--t)}
+.num-cell::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,107,43,0.07),transparent 60%);opacity:0;transition:opacity .4s}
+.num-cell:hover::before{opacity:1}
+.num-cell:first-child{border-radius:var(--radius-xl) 0 0 var(--radius-xl)}
+.num-cell:last-child{border-radius:0 var(--radius-xl) var(--radius-xl) 0}
+.num-val{font-size:clamp(44px,5.5vw,70px);font-weight:900;color:var(--white);line-height:1;letter-spacing:-2px;margin-bottom:8px}
+.num-val span{background:linear-gradient(135deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.num-lbl{font-size:13px;color:var(--grey);letter-spacing:.3px}
+.num-icon{font-size:20px;margin-bottom:12px;opacity:.7}
+
+/* CHEFS */
+.chefs-sec{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.chefs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:52px}
+.chef-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-xl);overflow:hidden;transition:var(--t)}
+.chef-card:hover{border-color:rgba(255,107,43,.35);transform:translateY(-5px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.chef-avatar{height:210px;background:linear-gradient(135deg,#120A00,#251200);display:flex;align-items:center;justify-content:center;font-size:68px;position:relative;overflow:hidden}
+.chef-avatar::after{content:'';position:absolute;bottom:0;left:0;right:0;height:55%;background:linear-gradient(to top,rgba(12,16,24,0.95),transparent)}
+.chef-role-badge{position:absolute;bottom:14px;left:14px;padding:4px 12px;border-radius:100px;background:var(--orange-glow);border:1px solid rgba(255,107,43,.35);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);z-index:1;font-weight:700}
+.chef-body{padding:20px 22px 24px}
+.chef-name{font-size:20px;font-weight:700;color:var(--white);letter-spacing:-0.3px;margin-bottom:3px}
+.chef-origin{font-size:12px;color:var(--grey);margin-bottom:12px;letter-spacing:.3px}
+.chef-speciality{font-size:13px;color:var(--text);line-height:1.75}
+.chef-awards{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+.chef-award{padding:3px 10px;border-radius:100px;background:var(--surface2);border:1px solid var(--border2);font-size:10.5px;color:var(--grey);letter-spacing:.3px}
+
+/* AWARDS */
+.awards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:52px}
+.award-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px 20px;text-align:center;position:relative;overflow:hidden;transition:var(--t)}
+.award-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,107,43,0.08),transparent 60%);opacity:0;transition:opacity .4s}
+.award-card:hover{border-color:rgba(255,107,43,.35);transform:translateY(-4px)}
+.award-card:hover::before{opacity:1}
+.award-card-icon{font-size:30px;margin-bottom:12px;display:block}
+.award-card-name{font-size:15px;font-weight:700;color:var(--white);margin-bottom:4px}
+.award-card-year{font-size:11px;letter-spacing:2px;color:var(--orange);text-transform:uppercase;font-weight:700}
+.award-card-body{font-size:12.5px;color:var(--grey);line-height:1.65;margin-top:10px}
+
+/* CTA */
+.cta-sec{background:var(--bg2);border-top:1px solid var(--border);text-align:center;padding:96px 80px}
+.cta-ornament{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--grey2);margin-bottom:36px;display:flex;align-items:center;justify-content:center;gap:18px;font-weight:600}
+.cta-ornament::before,.cta-ornament::after{content:'';width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--border2))}
+.cta-title{font-size:clamp(36px,5.5vw,76px);font-weight:900;color:var(--white);letter-spacing:-2.5px;line-height:1;margin-bottom:22px}
+.cta-title .hi{background:linear-gradient(135deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-style:italic}
+.cta-sub{font-size:clamp(15px,1.7vw,19px);color:var(--grey);max-width:520px;margin:0 auto 44px;line-height:1.7;font-style:italic}
+.cta-btns{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.btn-gold{padding:15px 34px;border-radius:var(--radius-lg);background:linear-gradient(135deg,var(--orange),#e03a00);border:none;color:#fff;font-size:14px;font-weight:700;display:inline-flex;align-items:center;gap:8px;box-shadow:0 8px 32px var(--orange-glow);transition:var(--ts);font-family:inherit}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 16px 48px var(--orange-glow)}
+.btn-ghost{padding:15px 34px;border-radius:var(--radius-lg);background:var(--surface);border:1px solid var(--border2);color:var(--text);font-size:14px;font-weight:500;display:inline-flex;align-items:center;gap:8px;transition:var(--t);font-family:inherit}
+.btn-ghost:hover{border-color:var(--orange);color:var(--orange)}
+
+/* FOOTER */
+.page-footer{padding:28px 80px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--grey2);flex-wrap:wrap;gap:12px;position:relative;z-index:1}
+.page-footer-logo{font-weight:800;font-size:18px;color:var(--white);letter-spacing:-0.3px}
+.page-footer-logo span{background:linear-gradient(90deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.vis{opacity:1;transform:none}
+.reveal-left{opacity:0;transform:translateX(-28px);transition:opacity .8s ease,transform .8s ease}
+.reveal-left.vis{opacity:1;transform:none}
+.reveal-right{opacity:0;transform:translateX(28px);transition:opacity .8s ease,transform .8s ease}
+.reveal-right.vis{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* KEYFRAMES */
+@keyframes orbFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-28px) scale(1.04)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes scrollTrack{0%{top:-100%}100%{top:200%}}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .nav{padding:0 32px}
+  section{padding:72px 40px}
+  .cta-sec{padding:72px 40px}
+  .page-footer{padding:24px 40px}
+  .origin-grid{grid-template-columns:1fr;gap:44px}
+  .phil-grid{grid-template-columns:1fr}
+  .tl-two{grid-template-columns:1fr}
+  .num-grid{grid-template-columns:1fr 1fr;gap:1px}
+  .chefs-grid{grid-template-columns:1fr 1fr}
+  .awards-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:640px){
+  .nav{padding:0 20px}
+  section{padding:56px 20px}
+  .cta-sec{padding:56px 20px}
+  .hero-title{font-size:clamp(72px,22vw,110px);letter-spacing:-3px}
+  .hero-line,.hero-vline,.corner{display:none}
+  .chefs-grid{grid-template-columns:1fr}
+  .awards-grid{grid-template-columns:1fr 1fr}
+  .num-grid{grid-template-columns:1fr 1fr}
+  .num-cell:first-child{border-radius:var(--radius-xl) var(--radius-xl) 0 0}
+  .num-cell:last-child{border-radius:0 0 var(--radius-xl) var(--radius-xl)}
+  .cta-btns{flex-direction:column}
+  .page-footer{flex-direction:column;text-align:center;padding:20px}
+  .hero-metrics{flex-wrap:wrap;gap:20px}
+}
+</style>
+</head>
+<body>
+
+<!-- ORBS -->
+<div class="orb orb-1" aria-hidden="true"></div>
+<div class="orb orb-2" aria-hidden="true"></div>
+<div class="orb orb-3" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-logo">Bi<span>Tē</span></div>
+  <a href="{% url 'home' %}" class="nav-back">
+    <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2L4 7l5 5"/></svg>
+    Back to Home
+  </a>
+</nav>
+
+<!-- ══════════════════════ HERO -->
+<section class="hero">
+  <div class="hero-line hero-line-top" aria-hidden="true"></div>
+  <div class="hero-line hero-line-bot" aria-hidden="true"></div>
+  <div class="hero-vline hero-vline-l" aria-hidden="true"></div>
+  <div class="hero-vline hero-vline-r" aria-hidden="true"></div>
+  <div class="corner corner-tl" aria-hidden="true"></div>
+  <div class="corner corner-tr" aria-hidden="true"></div>
+  <div class="corner corner-bl" aria-hidden="true"></div>
+  <div class="corner corner-br" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="hero-pill">
+      <div class="pill-dot">✦</div>
+      <span class="pill-text">The Story Behind the Plate</span>
+    </div>
+
+    <span class="hero-wordmark-sub">Established 2018 &nbsp;·&nbsp; Kochi, Kerala</span>
+    <h1 class="hero-title" aria-label="BiTē">Bi<span class="g">Tē</span></h1>
+    <div class="hero-title-under">
+      <span class="hu-line"></span>
+      <span class="hu-word">Kitchen</span>
+      <span class="hu-line hu-line-r"></span>
+    </div>
+
+    <p class="hero-tagline">Where tradition meets craft, and every plate carries the soul of a thousand meals remembered.</p>
+
+    <div class="hero-metrics">
+      <div><div class="m-val"><span>6</span> Yrs</div><div class="m-lbl">Of Excellence</div></div>
+      <div><div class="m-val"><span>50K</span>+</div><div class="m-lbl">Happy Customers</div></div>
+      <div><div class="m-val"><span>4.9</span>★</div><div class="m-lbl">Average Rating</div></div>
+    </div>
+  </div>
+
+  <div class="scroll-cue" aria-hidden="true">
+    <span class="scroll-cue-text">Discover</span>
+    <div class="scroll-cue-track"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════ ORIGIN -->
+<section class="origin-sec">
+  <div class="s-inner">
+    <div class="origin-grid">
+
+      <div class="reveal-left">
+        <div class="s-eyebrow">Our Beginning</div>
+        <span class="origin-year">2018</span>
+        <h2 class="origin-title">Born from a <span class="hi">love</span> for extraordinary food.</h2>
+        <p class="origin-body">BiTē Kitchen wasn't built in a boardroom. It started in a small home kitchen in Ernakulam, where our founder Rajan Pillai cooked for neighbours after a long day of dreaming about what food delivery could be — not just convenient, but genuinely beautiful.</p>
+        <div class="pull-quote">
+          <p>"Food is not fuel. It is memory. It is culture. It is the one thing that reminds us we are alive in a particular place, at a particular moment in time."</p>
+          <cite>— Rajan Pillai, Founder</cite>
+        </div>
+        <p class="origin-body">Six years later, BiTē serves over 800 orders a day across Kochi, partnered with farmers within 60km, and employs a team of 12 chefs who each carry a philosophy — that the best meal you've ever had should never be the last.</p>
+      </div>
+
+      <div class="reveal-right">
+        <div class="origin-frame">
+          <div class="origin-plate">🍽</div>
+          <div class="origin-mini-stats">
+            <div class="oms"><div class="oms-val"><span>6</span></div><div class="oms-lbl">Years of<br>Excellence</div></div>
+            <div class="oms"><div class="oms-val"><span>12</span></div><div class="oms-lbl">Expert<br>Chefs</div></div>
+            <div class="oms"><div class="oms-val"><span>4.9</span>★</div><div class="oms-lbl">Average<br>Rating</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ PHILOSOPHY -->
+<section>
+  <div class="s-inner">
+    <div class="phil-header reveal">
+      <div class="s-eyebrow" style="justify-content:center">What We Believe</div>
+      <h2 class="phil-title-center">Three pillars of the <span class="hi">BiTē</span> craft.</h2>
+      <p class="phil-sub">Not principles we wrote on a wall — convictions we cook by, every single day.</p>
+    </div>
+    <div class="phil-grid">
+      <div class="phil-card reveal d1">
+        <span class="phil-num">01</span>
+        <span class="phil-icon">🌱</span>
+        <div class="phil-card-title">Provenance Matters</div>
+        <p class="phil-card-body">Every ingredient carries its geography. We source daily from farms within 60km of our kitchen — not because it's fashionable, but because a tomato grown in Thrissur soil in monsoon season is simply a different ingredient than one that travelled 800km in a cold truck.</p>
+      </div>
+      <div class="phil-card reveal d2">
+        <span class="phil-num">02</span>
+        <span class="phil-icon">🔥</span>
+        <div class="phil-card-title">Technique is Respect</div>
+        <p class="phil-card-body">A perfectly executed dish is an act of respect — for the ingredient, for the tradition, for the person eating it. Our chefs don't cut corners. Stocks are made overnight. Breads are proved for 18 hours. The biryani is still dum-cooked the old way.</p>
+      </div>
+      <div class="phil-card reveal d3">
+        <span class="phil-num">03</span>
+        <span class="phil-icon">🫂</span>
+        <div class="phil-card-title">Food is Connection</div>
+        <p class="phil-card-body">We think about the person on the other end of every order. The student eating alone. The family celebrating. The couple on a Tuesday who just needed something wonderful. Every meal we send out is a small act of hospitality from our kitchen to your table.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ TIMELINE -->
+<section class="timeline-sec">
+  <div class="s-inner">
+    <div class="reveal">
+      <div class="s-eyebrow">Our Journey</div>
+      <h2 class="tl-title">Six years, one <span class="hi">relentless</span> pursuit.</h2>
+    </div>
+    <div class="tl-two">
+      <div class="tl-track reveal">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2018 — The Beginning</div>
+          <div class="tl-event">BiTē launches from a ghost kitchen in Ernakulam</div>
+          <p class="tl-desc">12 dishes. 3 delivery partners. A borrowed commercial refrigerator. And an unshakeable belief that delivery food could be extraordinary.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2019 — First Recognition</div>
+          <div class="tl-event">Kerala Food Excellence Award — Best New Restaurant</div>
+          <p class="tl-desc">Less than a year in, the Saffron Biryani earned a write-up in The Hindu Food & Dining. Demand doubled overnight. We ran out of saffron within 48 hours.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2020 — The Pandemic Year</div>
+          <div class="tl-event">Zero layoffs. Community meal programme launched</div>
+          <p class="tl-desc">When the world stopped, we cooked more. Partnered with three hospitals and two NGOs to deliver 12,000 free meals to frontline workers across Kochi.</p>
+        </div>
+      </div>
+      <div class="tl-track reveal d2">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2021 — Growing Roots</div>
+          <div class="tl-event">Farm partnership programme — 8 local farms onboarded</div>
+          <p class="tl-desc">Formalised direct-sourcing relationships with farms across Thrissur, Palakkad and Wayanad. Seasonal menus introduced for the first time.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2022 — Chef's Table Series</div>
+          <div class="tl-event">Monthly exclusive 10-seat tasting dinners launched</div>
+          <p class="tl-desc">Our most intimate offering — ten guests, one chef, a single evening. Each menu is never repeated. Waitlist now stands at four months.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-year">2024 — Today</div>
+          <div class="tl-event">120+ dishes. 50,000 customers. Still cooking with love.</div>
+          <p class="tl-desc">Six years on, the same conviction drives every order. The food has evolved. The team has grown. The belief hasn't changed by a single degree.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ NUMBERS -->
+<section class="numbers-sec">
+  <div class="s-inner">
+    <div class="reveal">
+      <div class="s-eyebrow" style="justify-content:center">By the Numbers</div>
+      <h2 class="s-title">Six years told in <span class="hi">facts.</span></h2>
+    </div>
+    <div class="num-grid reveal">
+      <div class="num-cell">
+        <div class="num-icon">👨‍👩‍👦‍👦</div>
+        <div class="num-val"><span class="count" data-target="50">0</span><span>K+</span></div>
+        <div class="num-lbl">Happy customers served</div>
+      </div>
+      <div class="num-cell">
+        <div class="num-icon">🍽</div>
+        <div class="num-val"><span class="count" data-target="120">0</span><span>+</span></div>
+        <div class="num-lbl">Premium dishes crafted</div>
+      </div>
+      <div class="num-cell">
+        <div class="num-icon">🌾</div>
+        <div class="num-val"><span class="count" data-target="8">0</span></div>
+        <div class="num-lbl">Farm partnerships</div>
+      </div>
+      <div class="num-cell">
+        <div class="num-icon">⭐</div>
+        <div class="num-val"><span>4.9</span></div>
+        <div class="num-lbl">Average customer rating</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ CHEFS -->
+<section class="chefs-sec">
+  <div class="s-inner">
+    <div class="reveal">
+      <div class="s-eyebrow">The Kitchen</div>
+      <h2 class="s-title">The hands behind <span class="hi">every plate.</span></h2>
+    </div>
+    <div class="chefs-grid">
+      <div class="chef-card reveal d1">
+        <div class="chef-avatar">
+          👨‍🍳
+          <span class="chef-role-badge">Executive Chef</span>
+        </div>
+        <div class="chef-body">
+          <div class="chef-name">Rajan Pillai</div>
+          <div class="chef-origin">Kerala, India · Founder</div>
+          <div class="chef-speciality">Trained under Regi Mathew at Kappa Chakka Kandhari. Rajan's cooking philosophy roots deeply in Kerala's coastal tradition — bold spices, fresh coconut, and patience measured in hours, not minutes.</div>
+          <div class="chef-awards">
+            <span class="chef-award">🏆 Best Chef Kerala 2022</span>
+            <span class="chef-award">🌿 Farm-to-Table Pioneer</span>
+          </div>
+        </div>
+      </div>
+      <div class="chef-card reveal d2">
+        <div class="chef-avatar">
+          👩‍🍳
+          <span class="chef-role-badge">Head Pastry Chef</span>
+        </div>
+        <div class="chef-body">
+          <div class="chef-name">Meera Krishnan</div>
+          <div class="chef-origin">Thrissur, India · 8 years</div>
+          <div class="chef-speciality">Studied at Le Cordon Bleu Singapore. Meera's desserts are where French technique meets Malayali soul — cardamom panna cotta, jackfruit mille-feuille, and the legendary rose pistachio kheer.</div>
+          <div class="chef-awards">
+            <span class="chef-award">🍰 Pastry Arts Award 2023</span>
+            <span class="chef-award">✨ Innovation in Desserts</span>
+          </div>
+        </div>
+      </div>
+      <div class="chef-card reveal d3">
+        <div class="chef-avatar">
+          🧑‍🍳
+          <span class="chef-role-badge">Sous Chef — International</span>
+        </div>
+        <div class="chef-body">
+          <div class="chef-name">Arjun Nair</div>
+          <div class="chef-origin">Kochi, India · 5 years</div>
+          <div class="chef-speciality">Trained across Tokyo and Barcelona before returning home. Arjun leads our continental and Asian menus — his wagyu burger and omakase set have become BiTē's most-photographed dishes two years running.</div>
+          <div class="chef-awards">
+            <span class="chef-award">🍣 Best Asian Cuisine 2023</span>
+            <span class="chef-award">🔥 Rising Star Chef</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ AWARDS -->
+<section>
+  <div class="s-inner">
+    <div class="reveal" style="text-align:center">
+      <div class="s-eyebrow" style="justify-content:center">Recognition</div>
+      <h2 class="s-title">Honoured for doing what we <span class="hi">love.</span></h2>
+    </div>
+    <div class="awards-grid">
+      <div class="award-card reveal d1">
+        <span class="award-card-icon">🏆</span>
+        <div class="award-card-name">Best Restaurant</div>
+        <div class="award-card-year">Kerala · 2023</div>
+        <p class="award-card-body">Kerala Food Excellence Awards, voted by over 40,000 diners across the state.</p>
+      </div>
+      <div class="award-card reveal d2">
+        <span class="award-card-icon">🌿</span>
+        <div class="award-card-name">Sustainability Leader</div>
+        <div class="award-card-year">South India · 2022</div>
+        <p class="award-card-body">Recognised for zero-waste kitchen practices and direct farm sourcing model.</p>
+      </div>
+      <div class="award-card reveal d3">
+        <span class="award-card-icon">⭐</span>
+        <div class="award-card-name">Top Delivery Platform</div>
+        <div class="award-card-year">Kochi · 2023</div>
+        <p class="award-card-body">Highest rated restaurant on all three major platforms simultaneously for 18 months.</p>
+      </div>
+      <div class="award-card reveal d4">
+        <span class="award-card-icon">❤️</span>
+        <div class="award-card-name">Community Choice</div>
+        <div class="award-card-year">Ernakulam · 2020</div>
+        <p class="award-card-body">Awarded by the Greater Kochi Citizens Forum for the pandemic meal initiative.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════ CTA -->
+<section class="cta-sec">
+  <div class="cta-ornament" aria-hidden="true">✦ &nbsp; BiTē Kitchen &nbsp; ✦</div>
+  <h2 class="cta-title reveal">Now you know who we are.<br><span class="hi">Come eat with us.</span></h2>
+  <p class="cta-sub reveal">Every dish carries this story. Every delivery is a small act of hospitality from our kitchen to yours.</p>
+  <div class="cta-btns reveal">
+    <a href="{% url 'menu' %}"><button class="btn-gold">🍽 &nbsp; Order Now</button></a>
+    <a href="{% url 'home' %}"><button class="btn-ghost">← Return to Home</button></a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="page-footer">
+  <span class="page-footer-logo">Bi<span>Tē</span> Kitchen</span>
+  <span>© 2024 BiTē Kitchen · Ernakulam, Kochi, Kerala – 682031</span>
+  <span>Fine dining, delivered with love.</span>
+</footer>
+
+<script>
+/* NAV */
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('solid',scrollY>60);
+});
+
+/* SCROLL REVEAL */
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting) e.target.classList.add('vis');
+  });
+},{threshold:0.1});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>ro.observe(el));
+
+/* COUNT UP */
+function animateCount(el){
+  const target=parseInt(el.dataset.target);
+  const duration=2000;
+  const start=performance.now();
+  function step(now){
+    const p=Math.min((now-start)/duration,1);
+    const ease=1-Math.pow(1-p,3);
+    el.textContent=Math.round(ease*target);
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+const countObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.count').forEach(animateCount);
+      countObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.3});
+document.querySelectorAll('.num-grid').forEach(el=>countObs.observe(el));
+</script>
+</body>
+</html>

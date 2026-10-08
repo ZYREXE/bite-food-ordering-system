@@ -1,0 +1,610 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>BiTē Kitchen — Premium Dining & Delivery</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+<style>
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.3px;
+}
+
+.nav-user span {
+  color: var(--orange);
+  font-weight: 800;
+  font-size: 22px;
+}
+
+.profile-btn {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 107, 43, 0.4);
+  background: transparent;
+  color: var(--orange);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.profile-btn:hover {
+  background: var(--orange);
+  color: #fff;
+  transform: translateY(-1px);
+}
+:root{
+  --bg:#080B10;--bg2:#0C1018;--bg3:#111620;
+  --surface:rgba(255,255,255,0.04);--surface2:rgba(255,255,255,0.07);
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.13);
+  --orange:#FF6B2B;--orange2:#FF9A5C;--orange-glow:rgba(255,107,43,0.22);
+  --teal:#00D4AA;--white:#FFFFFF;--grey:#8A93A8;--grey2:#5A6278;
+  --text:#E2E8F0;--radius:16px;--radius-lg:24px;--radius-xl:32px;
+  --blur:blur(20px);--t:0.3s cubic-bezier(0.4,0,0.2,1);
+  --ts:0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--orange);border-radius:3px}
+
+/* ORBS */
+.orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0;animation:orbFloat 8s ease-in-out infinite}
+.orb-1{width:700px;height:700px;background:radial-gradient(circle,rgba(255,107,43,0.1),transparent 70%);top:-200px;right:-100px}
+.orb-2{width:500px;height:500px;background:radial-gradient(circle,rgba(0,212,170,0.07),transparent 70%);bottom:20%;left:-150px;animation-delay:3s}
+.orb-3{width:400px;height:400px;background:radial-gradient(circle,rgba(255,107,43,0.06),transparent 70%);bottom:0;right:20%;animation-delay:6s}
+
+/* CART FAB */
+.cart-fab{position:fixed;bottom:28px;right:28px;z-index:200;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#e03a00);border:none;color:#fff;font-size:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px var(--orange-glow);transition:var(--ts);animation:cartPulse 3s ease-in-out infinite}
+.cart-fab:hover{transform:scale(1.12) translateY(-2px)}
+.cart-badge{position:absolute;top:-4px;right:-4px;background:var(--teal);color:var(--bg);width:20px;height:20px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;height:68px;display:flex;align-items:center;padding:0 40px;gap:40px;background:rgba(8,11,16,0.55);backdrop-filter:var(--blur);border-bottom:1px solid var(--border);transition:var(--t)}
+.nav.solid{background:rgba(8,11,16,0.96);box-shadow:0 4px 40px rgba(0,0,0,0.6)}
+.nav-logo{font-weight:800;font-size:21px;letter-spacing:-0.5px;color:var(--white);white-space:nowrap}
+.nav-logo span{background:linear-gradient(90deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none;flex:1}
+.nav-links a{font-size:13.5px;font-weight:500;color:var(--grey);transition:color .2s;position:relative;padding-bottom:2px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1.5px;background:var(--orange);transition:width .3s;border-radius:1px}
+.nav-links a:hover{color:var(--white)}
+.nav-links a:hover::after{width:100%}
+.nav-search{flex:1;max-width:300px;display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:9px 16px;transition:var(--t)}
+.nav-search:focus-within{border-color:var(--orange)}
+.nav-search input{background:none;border:none;outline:none;font-size:13px;color:var(--text);font-family:inherit;width:100%}
+.nav-search input::placeholder{color:var(--grey2)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.btn-gn{padding:8px 18px;border-radius:100px;background:transparent;border:1px solid var(--border2);color:#FF6B2B;font-size:13px;font-weight:500;transition:var(--t)}
+.btn-gn:hover{border-color:var(--orange);color:#E2E8F0;border-width:1.6px}
+.btn-pn{padding:8px 20px;border-radius:100px;background:linear-gradient(135deg,var(--orange),#e03a00);border:none;color:#fff;font-size:13px;font-weight:600;box-shadow:0 4px 20px var(--orange-glow);transition:var(--ts)}
+.btn-pn:hover{transform:translateY(-1px);box-shadow:0 8px 32px var(--orange-glow)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--text);border-radius:1px;transition:var(--t)}
+
+/* HERO */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:100px 80px 80px;position:relative;overflow:hidden;gap:60px;z-index:1}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;background:var(--surface);border:1px solid var(--border2);border-radius:100px;margin-bottom:28px;animation:fadeUp .8s ease both}
+.pill-dot{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#e03a00);display:flex;align-items:center;justify-content:center;font-size:12px}
+.pill-text{font-size:12px;font-weight:500;color:var(--grey)}
+.pill-badge{padding:2px 8px;border-radius:100px;background:var(--orange-glow);color:var(--orange);font-size:11px;font-weight:600}
+.hero h1{font-size:clamp(44px,5.5vw,74px);font-weight:800;line-height:1.06;letter-spacing:-2.5px;color:var(--white);margin-bottom:20px;animation:fadeUp .8s .1s ease both}
+.hero h1 .g{background:linear-gradient(135deg,var(--orange) 0%,var(--orange2) 50%,#FFB347 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:16px;line-height:1.75;color:var(--grey);max-width:460px;margin-bottom:36px;animation:fadeUp .8s .2s ease both}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp .8s .3s ease both;margin-bottom:52px}
+.btn-hp{padding:14px 28px;border-radius:14px;background:linear-gradient(135deg,var(--orange),#e03a00);border:none;color:#fff;font-size:15px;font-weight:700;display:inline-flex;align-items:center;gap:8px;box-shadow:0 8px 32px var(--orange-glow);transition:var(--ts);position:relative;overflow:hidden}
+.btn-hp:hover{transform:translateY(-2px);box-shadow:0 16px 48px var(--orange-glow)}
+.btn-hg{padding:14px 28px;border-radius:14px;background:var(--surface);border:1px solid var(--border2);color:var(--text);font-size:15px;font-weight:500;display:inline-flex;align-items:center;gap:8px;backdrop-filter:var(--blur);transition:var(--t)}
+.btn-hg:hover{background:var(--surface2);border-color:rgba(255,255,255,.2);transform:translateY(-1px)}
+.hero-metrics{display:flex;gap:32px;padding-top:32px;border-top:1px solid var(--border);animation:fadeUp .8s .4s ease both}
+.m-val{font-size:28px;font-weight:800;color:var(--white);line-height:1;margin-bottom:4px;letter-spacing:-1.5px}
+.m-val span{background:linear-gradient(90deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.m-lbl{font-size:12px;color:var(--grey)}
+
+/* HERO RIGHT — BRAND SHOWCASE */
+.hero-right{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;animation:fadeUp .8s .15s ease both}
+.brand-showcase{width:380px;position:relative}
+
+/* Main brand card */
+.brand-card{background:rgba(255,255,255,0.04);backdrop-filter:blur(40px);border:1px solid var(--border2);border-radius:var(--radius-xl);padding:36px 32px;box-shadow:0 40px 80px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.05) inset;text-align:center;animation:heroFloat 6s ease-in-out infinite}
+
+/* Crest / emblem ring */
+.brand-emblem{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 40% 35%,rgba(255,107,43,0.18),rgba(255,107,43,0.04));border:1.5px solid rgba(255,107,43,0.35);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;position:relative}
+.brand-emblem::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px dashed rgba(255,107,43,0.2);animation:spinSlow 18s linear infinite}
+.brand-emblem-inner{font-size:46px;line-height:1}
+
+/* Brand name */
+.brand-wordmark{font-size:38px;font-weight:900;letter-spacing:-1.5px;color:var(--white);margin-bottom:4px}
+.brand-wordmark span{background:linear-gradient(135deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.brand-tagline{font-size:11.5px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--grey);margin-bottom:26px}
+
+/* Divider ornament */
+.brand-divider{display:flex;align-items:center;gap:10px;margin-bottom:26px}
+.brand-divider::before,.brand-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border2))}
+.brand-divider-ico{font-size:14px;color:var(--orange)}
+
+/* Cuisine tags */
+.brand-cuisines{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:26px}
+.cuisine-tag{padding:6px 14px;border-radius:100px;background:var(--surface);border:1px solid var(--border2);font-size:12px;font-weight:500;color:var(--grey);display:flex;align-items:center;gap:5px;transition:var(--t)}
+.cuisine-tag:hover{border-color:var(--orange);color:var(--orange);background:var(--orange-glow)}
+
+/* Awards row */
+.brand-awards{display:flex;justify-content:center;gap:18px;padding-top:22px;border-top:1px solid var(--border)}
+.award-item{text-align:center}
+.award-ico{font-size:20px;margin-bottom:4px}
+.award-lbl{font-size:10px;color:var(--grey);font-weight:500;line-height:1.4}
+
+/* Floating tags */
+.float-tag{position:absolute;background:rgba(12,16,24,0.88);backdrop-filter:blur(20px);border:1px solid var(--border2);border-radius:var(--radius);padding:10px 14px;font-size:12px;white-space:nowrap;z-index:3}
+.ft1{top:-18px;left:-60px;animation:heroFloat 5s 1s ease-in-out infinite}
+.ft2{bottom:60px;left:-70px;animation:heroFloat 7s 2s ease-in-out infinite}
+.ft3{top:80px;right:-60px;animation:heroFloat 6s .5s ease-in-out infinite}
+.ft-val{font-weight:700;color:var(--white);margin-bottom:1px}
+.ft-lbl{color:var(--grey);font-size:11px}
+
+/* CATEGORY STRIP */
+.cat-strip{padding:28px 80px;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:relative;z-index:5}
+.cat-scroll{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.cat-scroll::-webkit-scrollbar{display:none}
+.cat-pill{flex-shrink:0;display:flex;align-items:center;gap:7px;padding:10px 18px;border-radius:100px;background:var(--surface);border:1px solid var(--border);font-size:13.5px;font-weight:500;color:var(--grey);cursor:pointer;transition:var(--t);white-space:nowrap}
+.cat-pill span{font-size:15px}
+.cat-pill:hover,.cat-pill.on{background:var(--orange-glow);border-color:var(--orange);color:var(--orange)}
+
+/* SECTIONS */
+section{padding:96px 80px;position:relative;z-index:1}
+.s-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange);margin-bottom:12px}
+.s-eyebrow::before{content:'';width:24px;height:1.5px;background:var(--orange)}
+.s-title{font-size:clamp(30px,3.5vw,46px);font-weight:800;color:var(--white);letter-spacing:-1.5px;line-height:1.1;margin-bottom:10px}
+.s-title .hi{background:linear-gradient(90deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.s-sub{font-size:15px;color:var(--grey);line-height:1.7;max-width:480px}
+.s-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:44px;gap:24px;flex-wrap:wrap}
+.btn-see{padding:10px 22px;border-radius:100px;background:var(--surface);border:1px solid var(--border2);color:var(--text);font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px;transition:var(--t);white-space:nowrap}
+.btn-see:hover{border-color:var(--orange);color:var(--orange)}
+
+/* POPULAR */
+.pop-sec{background:var(--bg2)}
+.pop-track{display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;padding-bottom:6px}
+.pop-track::-webkit-scrollbar{display:none}
+.pop-card{min-width:256px;flex-shrink:0;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;display:flex;gap:14px;align-items:center;cursor:pointer;transition:var(--t)}
+.pop-card:hover{border-color:rgba(255,107,43,.4);transform:translateY(-4px)}
+.pop-ico{width:60px;height:60px;border-radius:var(--radius);background:linear-gradient(135deg,#1A0A00,#2D1800);display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
+.pop-bdg{display:inline-block;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:700;margin-bottom:5px}
+.pb-hot{background:var(--orange-glow);color:var(--orange)}
+.pb-best{background:rgba(255,184,0,.15);color:#FFB800}
+.pb-chef{background:rgba(139,92,246,.15);color:#8B5CF6}
+.pop-name{font-size:14px;font-weight:700;color:var(--white);margin-bottom:2px;letter-spacing:-.2px}
+.pop-orders{font-size:11px;color:var(--grey);margin-bottom:5px}
+.pop-price{font-size:17px;font-weight:800;background:linear-gradient(90deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* FEATURES */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:14px}
+.feat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:26px 18px;text-align:center;transition:var(--t);position:relative;overflow:hidden}
+.feat-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,var(--orange-glow),transparent 60%);opacity:0;transition:opacity .4s}
+.feat-card:hover{border-color:rgba(255,107,43,.3);transform:translateY(-4px)}
+.feat-card:hover::before{opacity:1}
+.feat-icon{font-size:34px;margin-bottom:12px;display:block}
+.feat-title{font-size:14px;font-weight:700;color:var(--white);margin-bottom:5px}
+.feat-desc{font-size:12px;color:var(--grey);line-height:1.6}
+
+/* ABOUT */
+.about-sec{background:var(--bg2)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-vis{position:relative}
+.about-mc{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-xl);padding:28px;box-shadow:0 40px 80px rgba(0,0,0,0.4)}
+.about-big{height:240px;border-radius:var(--radius-lg);background:linear-gradient(135deg,#120A00,#251200);display:flex;align-items:center;justify-content:center;font-size:90px;margin-bottom:22px;position:relative;overflow:hidden}
+.about-big::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,rgba(255,107,43,.18),transparent)}
+.about-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.as-item{text-align:center}
+.as-val{font-size:22px;font-weight:800;color:var(--white);letter-spacing:-1px}
+.as-val span{background:linear-gradient(90deg,var(--orange),var(--orange2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.as-lbl{font-size:11px;color:var(--grey);margin-top:2px}
+.aft{position:absolute;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:11px 14px;font-size:12px;font-weight:600;color:var(--white);box-shadow:0 16px 40px rgba(0,0,0,.4)}
+.aft1{top:-14px;right:-18px;animation:heroFloat 5s ease-in-out infinite}
+.aft2{bottom:-14px;left:-18px;animation:heroFloat 7s 1s ease-in-out infinite}
+.about-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin:22px 0 28px}
+.about-list li{display:flex;align-items:center;gap:11px;font-size:14px;color:var(--text)}
+.al-ico{width:26px;height:26px;border-radius:7px;background:var(--orange-glow);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(296px,1fr));gap:18px}
+.testi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:26px;transition:var(--t);position:relative;overflow:hidden}
+.testi-card::after{content:'"';position:absolute;bottom:-12px;right:14px;font-size:80px;color:var(--border);line-height:1;pointer-events:none}
+.testi-card:hover{border-color:rgba(255,107,43,.25);transform:translateY(-4px)}
+.testi-stars{color:#FFB800;font-size:13px;margin-bottom:13px}
+.testi-text{font-size:14px;color:var(--text);line-height:1.75;margin-bottom:18px;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:11px}
+.testi-av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#e03a00);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0}
+.testi-name{font-size:13px;font-weight:700;color:var(--white)}
+.testi-role{font-size:11px;color:var(--grey);margin-top:1px}
+
+/* HOW */
+.how-sec{background:var(--bg2)}
+.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative}
+.how-grid::before{content:'';position:absolute;top:44px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--border),var(--orange-glow),var(--border),transparent)}
+.how-step{text-align:center;padding:0 10px;position:relative}
+.how-num{width:88px;height:88px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 18px;position:relative;z-index:1;transition:var(--ts)}
+.how-step:hover .how-num{border-color:var(--orange);background:var(--orange-glow);box-shadow:0 0 32px var(--orange-glow);transform:scale(1.08)}
+.how-title{font-size:15px;font-weight:700;color:var(--white);margin-bottom:7px}
+.how-desc{font-size:12px;color:var(--grey);line-height:1.6}
+
+/* FOOTER */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:68px 80px 32px;position:relative;z-index:1}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr;gap:44px;margin-bottom:52px}
+.fg-brand .nav-logo{font-size:24px;display:block;margin-bottom:13px}
+.fg-brand p{font-size:13px;color:var(--grey);line-height:1.7;max-width:250px}
+.fg-social{display:flex;gap:9px;margin-top:18px}
+.fg-soc{width:34px;height:34px;border-radius:8px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:var(--t)}
+.fg-soc:hover{border-color:var(--orange);background:var(--orange-glow)}
+.fg-col h4{font-size:12px;font-weight:700;color:var(--white);letter-spacing:.5px;margin-bottom:16px;text-transform:uppercase}
+.fg-links{list-style:none;display:flex;flex-direction:column;gap:9px}
+.fg-links a{font-size:13px;color:var(--grey);transition:color .2s}
+.fg-links a:hover{color:var(--orange)}
+.fg-hours{display:flex;flex-direction:column;gap:7px}
+.fh-row{display:flex;justify-content:space-between;font-size:12px}
+.fh-day{color:var(--grey)}
+.fh-time{color:var(--text);font-weight:500}
+.fg-nl input{width:100%;padding:9px 13px;border-radius:9px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-size:13px;font-family:inherit;outline:none;margin-bottom:7px}
+.fg-nl input::placeholder{color:var(--grey2)}
+.fg-nl input:focus{border-color:var(--orange)}
+.fg-nl button{width:100%;padding:10px;border-radius:9px;background:linear-gradient(135deg,var(--orange),#e03a00);border:none;color:#fff;font-size:13px;font-weight:600;cursor:pointer;transition:var(--ts)}
+.fg-nl button:hover{transform:translateY(-1px);box-shadow:0 8px 24px var(--orange-glow)}
+.footer-bottom{padding-top:26px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--grey);flex-wrap:wrap;gap:10px}
+
+/* MOB MENU */
+.mob-menu{display:none;position:fixed;top:68px;left:0;right:0;background:rgba(8,11,16,.97);backdrop-filter:var(--blur);border-bottom:1px solid var(--border);z-index:99;padding:22px;flex-direction:column;gap:14px}
+.mob-menu.open{display:flex}
+.mob-menu a{font-size:15px;color:var(--text);padding:7px 0;border-bottom:1px solid var(--border)}
+.mob-btns{display:flex;gap:10px;padding-top:8px}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.reveal.vis{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+/* KEYFRAMES */
+@keyframes orbFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-28px) scale(1.04)}}
+@keyframes heroFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-13px)}}
+@keyframes cartPulse{0%,100%{box-shadow:0 8px 32px var(--orange-glow)}50%{box-shadow:0 8px 48px rgba(255,107,43,0.4)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes spinSlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .nav-links,.nav-search{display:none}
+  .hamburger{display:flex}
+  .hero{grid-template-columns:1fr;padding:100px 40px 60px;gap:0}
+  .hero-right{display:none}
+  section{padding:72px 40px}
+  .cat-strip{padding:22px 40px}
+  .about-grid,.app-grid{grid-template-columns:1fr;gap:40px}
+  .how-grid{grid-template-columns:1fr 1fr;gap:36px}
+  .how-grid::before{display:none}
+  .fg{grid-template-columns:1fr 1fr;gap:28px}
+}
+@media(max-width:600px){
+  .hero h1{font-size:38px;letter-spacing:-1.5px}
+  .hero-btns{flex-direction:column}
+  section{padding:60px 20px}
+  .cat-strip{padding:18px 20px}
+  .nav{padding:0 20px}
+  .fg{grid-template-columns:1fr}
+  .how-grid{grid-template-columns:1fr}
+  .promo-inner{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- AMBIENT ORBS -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- CART FAB -->
+<button class="cart-fab" onclick="toggleCart()">
+  🛒
+  <span class="cart-badge" id="cartBadge">0</span>
+</button>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-logo">Bi<span>Tē</span></div>
+  <ul class="nav-links">
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'menu' %}">Menu</a></li>
+    <li><a href="{% url 'about' %}">About</a></li>
+    <li><a href="{% url 'cart' %}">🛒 Cart</a></li>
+  </ul>
+  <div class="nav-right">
+    {% if user.is_authenticated %}
+      <div class="nav-user">
+        Hello
+        <span>{{ user.username }}</span>
+        <a href="{% url 'profile' %}">
+          <button class="profile-btn">Profile</button>
+        </a>
+      </div>
+    {% else %}
+      <a href="{% url 'signin' %}">
+        <button class="btn-gn">Login</button>
+      </a>
+    {% endif %}
+  </div>
+  <div class="hamburger" onclick="toggleMob()" id="ham">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOB MENU -->
+<div class="mob-menu" id="mobMenu">
+  <a href="#">Home</a>
+  <a href="{% url 'menu' %}">Menu</a>
+  <a href="{% url 'about' %}">About</a>
+  <div class="mob-btns">
+    <a href="{% url 'signin' %}"><button class="btn-gn">Login</button></a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <h1>Experience<br>Food <span class="g">Differently.</span></h1>
+    <p class="hero-sub">Premium restaurant cuisine, crafted by award-winning chefs and delivered to your door in under 30 minutes. Taste the extraordinary.</p>
+    <div class="hero-btns">
+      <a href="{% url 'menu' %}"><button class="btn-hp">🍽 Order Now</button></a>
+    </div>
+    <div class="hero-metrics">
+      <div><div class="m-val"><span>50K</span>+</div><div class="m-lbl">Happy Customers</div></div>
+      <div><div class="m-val"><span>120</span>+</div><div class="m-lbl">Premium Dishes</div></div>
+      <div><div class="m-val"><span>4.9</span>★</div><div class="m-lbl">Average Rating</div></div>
+    </div>
+  </div>
+
+  <!-- HERO RIGHT — BRAND SHOWCASE -->
+  <div class="hero-right">
+    <div class="brand-showcase">
+
+      <!-- Floating ambient tags -->
+      <div class="float-tag ft1">
+        <div class="ft-val">🌟 Est. 2018</div>
+        <div class="ft-lbl">Serving since 6 years</div>
+      </div>
+      <div class="float-tag ft2">
+        <div class="ft-val">📍 Kochi, Kerala</div>
+        <div class="ft-lbl">Ernakulam – 682031</div>
+      </div>
+      <div class="float-tag ft3">
+        <div class="ft-val">🕐 Open Now</div>
+        <div class="ft-lbl">Until 11:00 PM</div>
+      </div>
+
+      <!-- Main brand card -->
+      <div class="brand-card">
+
+        <!-- Emblem -->
+        <div class="brand-emblem">
+          <div class="brand-emblem-inner">🍽</div>
+        </div>
+
+        <!-- Name & tagline -->
+        <div class="brand-wordmark">Bi<span>Tē</span></div>
+        <div class="brand-tagline">Kitchen &amp; Delivery</div>
+
+        <!-- Ornament divider -->
+        <div class="brand-divider">
+          <div class="brand-divider-ico">✦</div>
+        </div>
+
+        <!-- Cuisine identity tags -->
+        <div class="brand-cuisines">
+          <div class="cuisine-tag">🍛 Indian</div>
+          <div class="cuisine-tag">🍕 Continental</div>
+          <div class="cuisine-tag">🍣 Asian</div>
+          <div class="cuisine-tag">🥩 Grills</div>
+          <div class="cuisine-tag">🍰 Desserts</div>
+        </div>
+
+        <!-- Awards / highlights -->
+        <div class="brand-awards">
+          <div class="award-item">
+            <div class="award-ico">🏆</div>
+            <div class="award-lbl">Best Restaurant<br>2023</div>
+          </div>
+          <div class="award-item">
+            <div class="award-ico">🌿</div>
+            <div class="award-lbl">100% Fresh<br>Ingredients</div>
+          </div>
+          <div class="award-item">
+            <div class="award-ico">⚡</div>
+            <div class="award-lbl">30-Min<br>Delivery</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section>
+  <div class="s-eyebrow">Why Choose BiTē</div>
+  <h2 class="s-title" style="margin-bottom:10px">The <span class="hi">BiTē</span> Promise</h2>
+  <p class="s-sub" style="margin-bottom:48px">Every detail considered. Every meal unforgettable.</p>
+  <div class="feat-grid reveal">
+    <div class="feat-card"><span class="feat-icon">⚡</span><div class="feat-title">30-Min Delivery</div><div class="feat-desc">Hot, fresh meals at your door in 30 minutes or less. Guaranteed.</div></div>
+    <div class="feat-card"><span class="feat-icon">🌿</span><div class="feat-title">Farm Fresh</div><div class="feat-desc">Locally sourced, seasonal ingredients. Delivered to our kitchen daily.</div></div>
+    <div class="feat-card"><span class="feat-icon">📍</span><div class="feat-title">Live Tracking</div><div class="feat-desc">Real-time GPS so you always know exactly where your order is.</div></div>
+    <div class="feat-card"><span class="feat-icon">🔒</span><div class="feat-title">Secure Pay</div><div class="feat-desc">Bank-grade encryption. Multiple payment options. 100% safe.</div></div>
+    <div class="feat-card"><span class="feat-icon">🕐</span><div class="feat-title">24/7 Open</div><div class="feat-desc">Craving something at 3am? We are always open, always ready.</div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-sec" id="about">
+  <div class="about-grid">
+    <div class="about-vis">
+      <div class="aft aft1">🌟 Michelin Inspired</div>
+      <div class="aft aft2">🌿 100% Fresh Daily</div>
+      <div class="about-mc">
+        <div class="about-big">🍽</div>
+        <div class="about-stats">
+          <div class="as-item"><div class="as-val"><span>120</span>+</div><div class="as-lbl">Dishes</div></div>
+          <div class="as-item"><div class="as-val"><span>50K</span></div><div class="as-lbl">Customers</div></div>
+          <div class="as-item"><div class="as-val"><span>800</span>+</div><div class="as-lbl">Daily Orders</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="s-eyebrow">Our Story</div>
+      <h2 class="s-title">Passion on <span class="hi">Every Plate</span></h2>
+      <p class="s-sub">Founded in 2018, BiTē Kitchen was born from a simple belief — extraordinary food should be accessible to everyone, wherever they are.</p>
+      <ul class="about-list">
+        <li><div class="al-ico">👨‍🍳</div> Award-winning chefs with Michelin-star backgrounds</li>
+        <li><div class="al-ico">🌱</div> Ingredients sourced from local farms every morning</li>
+        <li><div class="al-ico">♻️</div> Eco-friendly packaging for every single order</li>
+        <li><div class="al-ico">🏥</div> Dedicated nutritionists on our culinary team</li>
+        <li><div class="al-ico">⚠️</div> Allergen-aware kitchen with strict protocols</li>
+      </ul>
+      <a href="{% url 'about' %}">
+      <button class="btn-hp">Discover Our Story →</button>
+     </a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section>
+  <div class="s-eyebrow">Reviews</div>
+  <h2 class="s-title" style="margin-bottom:10px">What Our <span class="hi">Guests Say</span></h2>
+  <p class="s-sub" style="margin-bottom:44px">Real words from real food lovers.</p>
+  <div class="testi-grid reveal">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"The Saffron Biryani is hands down the best I've ever had. It arrived piping hot and tasted like it was made in a five-star kitchen."</p>
+      <div class="testi-author"><div class="testi-av">A</div><div><div class="testi-name">Aisha Rahman</div><div class="testi-role">Food Critic · Dubai</div></div></div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"I ordered for a dinner party and my guests couldn't believe it was delivery. The presentation was flawless, the flavors even more so."</p>
+      <div class="testi-author"><div class="testi-av">M</div><div><div class="testi-name">Marcus Chen</div><div class="testi-role">Regular Customer · NYC</div></div></div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"Fast delivery, gorgeous packaging, and the truffle pizza was absolutely divine. BiTē has completely ruined all other food delivery for me."</p>
+      <div class="testi-author"><div class="testi-av">S</div><div><div class="testi-name">Sofia Martínez</div><div class="testi-role">Food Blogger · London</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-sec">
+  <div class="s-eyebrow">How It Works</div>
+  <h2 class="s-title" style="margin-bottom:10px;text-align:center">Order in <span class="hi">4 Easy Steps</span></h2>
+  <p class="s-sub" style="margin:0 auto 60px;text-align:center">From craving to table in minutes.</p>
+  <div class="how-grid reveal">
+    <div class="how-step"><div class="how-num">🥗</div><div class="how-title">Choose Food</div><div class="how-desc">Browse 120+ premium dishes crafted by our award-winning team.</div></div>
+    <div class="how-step"><div class="how-num">🛒</div><div class="how-title">Add to Cart</div><div class="how-desc">Add favourites, customise your order and review your selection.</div></div>
+    <div class="how-step"><div class="how-num">💳</div><div class="how-title">Secure Payment</div><div class="how-desc">Pay safely with card, wallet in cash on delivery. Fully encrypted.</div></div>
+    <div class="how-step"><div class="how-num">🍽️</div><div class="how-title">Fast Delivery</div><div class="how-desc">Receive your order hot in 15 minutes or less in your table.</div></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="fg">
+    <div class="fg-brand">
+      <span class="nav-logo">Bi<span>Tē</span></span>
+      <p>Fine dining, reimagined for modern life. Premium ingredients, award-winning recipes, delivered to your door.</p>
+      <div class="fg-social">
+        <div class="fg-soc">📘</div>
+        <div class="fg-soc">📸</div>
+        <div class="fg-soc">🐦</div>
+        <div class="fg-soc">▶</div>
+      </div>
+    </div>
+    <div class="fg-col">
+      <h4>Quick Links</h4>
+      <ul class="fg-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="{% url 'menu' %}">Menu</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="{% url 'register' %}">Register</a></li>
+        <li><a href="{% url 'signin' %}">Login</a></li>
+      </ul>
+    </div>
+    <div class="fg-col">
+      <h4>Opening Hours</h4>
+      <div class="fg-hours">
+        <div class="fh-row"><span class="fh-day">Mon – Fri</span><span class="fh-time">10am – 11pm</span></div>
+        <div class="fh-row"><span class="fh-day">Saturday</span><span class="fh-time">9am – 12am</span></div>
+        <div class="fh-row"><span class="fh-day">Sunday</span><span class="fh-time">10am – 10pm</span></div>
+      </div>
+      <br/>
+      <div style="font-size:13px;color:var(--grey)">📞 +1 (800) 726-6266</div>
+      <div style="font-size:12px;color:var(--grey2);margin-top:6px">📍 Ernakulam, Kochi, Kerala – 682031</div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 BiTē Kitchen. All rights reserved.</span>
+    <span>Privacy Policy · Terms of Service · Cookie Policy</span>
+  </div>
+</footer>
+
+<script>
+// NAV SCROLL
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('solid',scrollY>40);
+});
+
+// MOBILE MENU
+function toggleMob(){
+  document.getElementById('mobMenu').classList.toggle('open');
+}
+
+// CART
+let cart=0;
+function addCart(){
+  cart++;
+  document.getElementById('cartBadge').textContent=cart;
+  const btn=event.currentTarget;
+  const orig=btn.textContent;
+  btn.textContent='✓ Added';
+  btn.style.background='var(--teal)';
+  btn.style.color='var(--bg)';
+  btn.style.borderColor='var(--teal)';
+  setTimeout(()=>{
+    btn.textContent=orig;
+    btn.style.background='';
+    btn.style.color='';
+    btn.style.borderColor='';
+  },1500);
+}
+
+function toggleCart(){
+  alert('Cart panel — connect to your Django cart view here!');
+}
+
+// CATEGORY FILTER
+function setCat(el){
+  document.querySelectorAll('.cat-pill').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+}
+
+// SCROLL REVEAL
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,318 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Change Username</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+  --bg:#080B10;
+  --bg2:#0C1018;
+
+  --surface:rgba(255,255,255,0.05);
+  --border:rgba(255,255,255,0.08);
+
+  --orange:#FF6B2B;
+  --orange2:#FF9A5C;
+
+  --white:#ffffff;
+  --text:#E2E8F0;
+  --grey:#8A93A8;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+
+  min-height:100vh;
+
+  background:
+  linear-gradient(135deg,#080B10,#0C1018,#111620);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  overflow:hidden;
+
+  color:var(--text);
+
+  position:relative;
+}
+
+/* BACKGROUND ORBS */
+
+.orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(120px);
+  pointer-events:none;
+}
+
+.orb1{
+  width:500px;
+  height:500px;
+
+  background:rgba(255,107,43,0.12);
+
+  top:-180px;
+  right:-100px;
+}
+
+.orb2{
+  width:400px;
+  height:400px;
+
+  background:rgba(0,212,170,0.08);
+
+  bottom:-100px;
+  left:-120px;
+}
+
+/* MAIN BOX */
+
+.box{
+  width:100%;
+  max-width:420px;
+
+  padding:42px;
+
+  border-radius:28px;
+
+  background:rgba(10,12,18,0.88);
+
+  backdrop-filter:blur(30px);
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  box-shadow:0 30px 60px rgba(0,0,0,0.45);
+
+  position:relative;
+  z-index:2;
+}
+
+/* TOP BAR */
+
+.box::before{
+  content:'';
+
+  position:absolute;
+
+  top:0;
+  left:0;
+
+  width:100%;
+  height:4px;
+
+  border-radius:28px 28px 0 0;
+
+  background:
+  linear-gradient(90deg,var(--orange),var(--orange2));
+}
+
+/* TITLE */
+
+h2{
+  text-align:center;
+
+  color:white;
+
+  font-size:38px;
+  font-weight:800;
+
+  letter-spacing:-2px;
+
+  margin-bottom:34px;
+}
+
+/* LABEL */
+
+label{
+  display:block;
+
+  margin-bottom:10px;
+
+  font-size:14px;
+  font-weight:500;
+
+  color:#d6dbe5;
+}
+
+/* INPUT */
+
+input{
+  width:100%;
+
+  padding:16px 18px;
+
+  border-radius:16px;
+
+  border:1px solid rgba(255,255,255,0.08);
+
+  background:rgba(255,255,255,0.04);
+
+  color:white;
+
+  font-size:15px;
+
+  transition:0.3s;
+
+  font-family:'Plus Jakarta Sans',sans-serif;
+}
+
+input::placeholder{
+  color:#8A93A8;
+}
+
+input:hover{
+  border-color:rgba(255,107,43,0.35);
+}
+
+input:focus{
+  outline:none;
+
+  border-color:var(--orange);
+
+  box-shadow:0 0 0 4px rgba(255,107,43,0.12);
+
+  transform:translateY(-2px);
+}
+
+/* ERRORS */
+
+.errorlist{
+  list-style:none;
+
+  margin-top:8px;
+
+  padding:0;
+}
+
+.errorlist li{
+  color:#ff7b7b;
+
+  font-size:13px;
+
+  margin-top:4px;
+}
+
+/* BUTTON */
+
+button{
+  width:100%;
+
+  margin-top:30px;
+
+  padding:16px;
+
+  border:none;
+
+  border-radius:16px;
+
+  background:
+  linear-gradient(135deg,var(--orange),#e03a00);
+
+  color:white;
+
+  font-size:15px;
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:0.35s;
+}
+
+button:hover{
+  transform:translateY(-5px);
+
+  box-shadow:0 20px 40px rgba(255,107,43,0.25);
+}
+
+/* BOTTOM LINKS */
+
+.links{
+  margin-top:22px;
+
+  text-align:center;
+
+  font-size:14px;
+}
+
+.links a{
+  color:#9bbcff;
+
+  text-decoration:none;
+
+  transition:0.3s;
+}
+
+.links a:hover{
+  color:var(--orange);
+}
+
+/* MOBILE */
+
+@media(max-width:520px){
+
+  .box{
+    margin:20px;
+    padding:30px 24px;
+  }
+
+  h2{
+    font-size:32px;
+  }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<div class="box">
+
+  <h2>Change Username</h2>
+
+  <form method="POST">
+
+    {% csrf_token %}
+
+    <label>New Username</label>
+
+    {{ form.username }}
+
+    {{ form.username.errors }}
+
+    <button type="submit">
+      Update Username
+    </button>
+
+  </form>
+
+  <div class="links">
+
+    <a href="{% url 'profile' %}">
+      Back to Profile
+    </a>
+
+  </div>
+
+</div>
+
+</body>
+</html>

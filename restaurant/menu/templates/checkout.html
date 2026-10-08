@@ -1,0 +1,596 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiTē — Checkout</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0b0f16;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* NAV */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            background: rgba(8, 11, 16, 0.6);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 100;
+        }
+
+        .nav-logo {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .nav-logo span {
+            color: #ff6b2b;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #8A93A8;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logout-btn {
+            padding: 7px 14px;
+            border-radius: 10px;
+            border: 2px solid #ff6b2b70;
+            background: transparent;
+            color: #ff6b2b;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .logout-btn:hover {
+            background: #ff6b2b;
+            color: #0b0f16;
+        }
+
+        .user-name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .user-name span {
+            color: #ff6b2b;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 860px;
+            margin: auto;
+            padding: 110px 20px 80px;
+        }
+
+        /* PAGE TITLE */
+        .page-title {
+            margin-bottom: 36px;
+        }
+
+        .page-title h1 {
+            font-size: 48px;
+            font-weight: 800;
+        }
+
+        .page-title h1 span {
+            color: #ff6b2b;
+        }
+
+        .page-title p {
+            margin-top: 8px;
+            color: #8A93A8;
+            font-size: 15px;
+        }
+
+        /* BILL CARD */
+        .bill-card {
+            background: #151b26;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        /* BILL HEAD */
+        .bill-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 28px 32px;
+            background: rgba(255, 107, 43, 0.07);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .bill-head-left h2 {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .bill-head-left p {
+            color: #8A93A8;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .bill-head-right {
+            text-align: right;
+        }
+
+        .bill-head-right .label {
+            font-size: 12px;
+            color: #8A93A8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .bill-head-right .customer {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ff6b2b;
+            margin-top: 2px;
+        }
+
+        /* ITEMS TABLE */
+        .bill-items {
+            padding: 0 32px;
+        }
+
+        .bill-items-header {
+            display: grid;
+            grid-template-columns: 2fr 80px 120px 120px;
+            padding: 18px 0 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            color: #5a6272;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .bill-row {
+            display: grid;
+            grid-template-columns: 2fr 80px 120px 120px;
+            align-items: center;
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .bill-row:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .item-unit-price {
+            font-size: 13px;
+            color: #8A93A8;
+            margin-top: 3px;
+        }
+
+        .bill-qty {
+            font-size: 16px;
+            font-weight: 700;
+            color: #c7cedd;
+        }
+
+        .bill-unit {
+            font-size: 15px;
+            font-weight: 600;
+            color: #c7cedd;
+        }
+
+        .bill-subtotal {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ff6b2b;
+        }
+
+        /* TOTALS SECTION */
+        .bill-totals {
+            margin: 0 32px;
+            padding: 22px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .totals-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            font-size: 15px;
+            color: #c7cedd;
+        }
+
+        .totals-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .grand-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 22px 32px 0;
+            padding: 22px 0;
+            border-top: 2px solid rgba(255, 107, 43, 0.3);
+        }
+
+        .grand-total-row .label {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .grand-total-row .amount {
+            font-size: 30px;
+            font-weight: 800;
+            color: #ff6b2b;
+        }
+
+        /* ACTIONS */
+        .bill-actions {
+            display: flex;
+            gap: 14px;
+            padding: 28px 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .btn-back {
+            flex: 1;
+            padding: 15px;
+            border-radius: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: transparent;
+            color: #8A93A8;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .btn-back:hover {
+            border-color: rgba(255, 255, 255, 0.25);
+            color: #fff;
+        }
+
+        .btn-confirm {
+            flex: 2;
+            padding: 15px;
+            border-radius: 14px;
+            border: none;
+            background: #ff6b2b;
+            color: #fff;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .btn-confirm:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(255, 107, 43, 0.35);
+        }
+
+        /* BADGE */
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 18px;
+            color: #5a6272;
+            font-size: 13px;
+        }
+
+        /* TOAST */
+        .toast-container {
+            position: fixed;
+            top: 90px;
+            right: 25px;
+            z-index: 9999;
+        }
+
+        .toast-message {
+            min-width: 340px;
+            max-width: 380px;
+            background: #151b26;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-left: 5px solid #00d26a;
+            border-radius: 18px;
+            padding: 18px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+            animation: toastSlide 0.5s ease;
+            transition: 0.4s;
+        }
+
+        .toast-message.hide {
+            opacity: 0;
+            transform: translateX(120px);
+        }
+
+        .toast-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #00d26a20;
+            color: #00d26a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .toast-text {
+            color: #aeb7c8;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #8A93A8;
+            font-size: 22px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .toast-close:hover {
+            color: white;
+        }
+
+        @keyframes toastSlide {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:700px) {
+            .bill-items-header {
+                display: none;
+            }
+
+            .bill-row {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto auto;
+                gap: 8px;
+            }
+
+            .bill-row>.bill-unit {
+                display: none;
+            }
+
+            .bill-head {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .bill-head-right {
+                text-align: left;
+            }
+
+            .grand-total-row .amount {
+                font-size: 24px;
+            }
+
+            .bill-actions {
+                flex-direction: column;
+            }
+
+            .btn-back,
+            .btn-confirm {
+                flex: none;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="nav-logo">
+            <a href="{% url 'home' %}" style="text-decoration:none;color:inherit;">Bi<span>Tē</span></a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'menu' %}">Menu</a></li>
+        </ul>
+        <div class="nav-right">
+            {% if user.is_authenticated %}
+            <div class="user-name">Hello <span>{{ user.username }}</span></div>
+            <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- TOAST -->
+    {% if messages %}
+    <div class="toast-container">
+        {% for message in messages %}
+        <div class="toast-message">
+            <div class="toast-icon">✓</div>
+            <div class="toast-content">
+                <div class="toast-title">Success</div>
+                <div class="toast-text">{{ message }}</div>
+            </div>
+            <button class="toast-close">×</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="container">
+
+        <div class="page-title">
+            <h1>your <span>bill</span></h1>
+            <p>Review your order one final time before confirming.</p>
+        </div>
+
+        <div class="bill-card">
+
+            <!-- HEAD -->
+            <div class="bill-head">
+                <div class="bill-head-left">
+                    <h2>Order Summary</h2>
+                    <p>BiTē Food Delivery</p>
+                </div>
+                <div class="bill-head-right">
+                    <div class="label">Customer</div>
+                    <div class="customer">{{ user.username }}</div>
+                </div>
+            </div>
+
+            <!-- ITEMS -->
+            <div class="bill-items">
+
+                <div class="bill-items-header">
+                    <div>Item</div>
+                    <div>Qty</div>
+                    <div>Unit Price</div>
+                    <div>Subtotal</div>
+                </div>
+
+                {% for item in cart_items %}
+                <div class="bill-row">
+
+                    <div>
+                        <div class="item-name">{{ item.food.name }}</div>
+                    </div>
+
+                    <div class="bill-qty">× {{ item.quantity }}</div>
+
+                    <div class="bill-unit">₹{{ item.food.price|floatformat:0 }}</div>
+
+                    <div class="bill-subtotal">
+                        ₹{% widthratio item.food.price 1 item.quantity %}
+                    </div>
+
+                </div>
+                {% endfor %}
+
+            </div>
+
+            <!-- TOTALS -->
+            <div class="bill-totals">
+                <div class="totals-row">
+                    <span>Subtotal</span>
+                    <span>₹{{ subtotal|floatformat:0 }}</span>
+                </div>
+                <div class="totals-row">
+                    <span>Delivery Fee</span>
+                    <span>₹{{ delivery_fee }}</span>
+                </div>
+            </div>
+
+            <div class="grand-total-row">
+                <span class="label">Total Payable</span>
+                <span class="amount">₹{{ total|floatformat:0 }}</span>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="bill-actions">
+                <a href="{% url 'cart' %}" class="btn-back">← Edit Cart</a>
+                <form method="POST" action="{% url 'checkout_bill' %}" style="flex:2;display:flex;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-confirm" style="width:100%;">
+                        ✓ Confirm &amp; Pay ₹{{ total|floatformat:0 }}
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+        <div class="secure-badge">
+            🔒 &nbsp;Secure checkout — your order is safe with us
+        </div>
+
+    </div>
+
+    <script>
+        const toasts = document.querySelectorAll(".toast-message");
+        toasts.forEach((toast) => {
+            const closeBtn = toast.querySelector(".toast-close");
+            closeBtn.addEventListener("click", () => {
+                toast.classList.add("hide");
+                setTimeout(() => toast.remove(), 400);
+            });
+            setTimeout(() => {
+                toast.classList.add("hide");
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        });
+    </script>
+
+</body>
+
+</html>
